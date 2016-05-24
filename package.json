@@ -1,6 +1,6 @@
 {
   "name": "eztv-api-pt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A eztv api wrapper to get data from eztv.ag.",
   "dependencies": {
     "cheerio": "^0.20.0",
@@ -20,7 +20,10 @@
     "node": ">=5.0.0"
   },
   "keywords": [
-    "eztv", "torrent", "api", "popcorn"
+    "eztv",
+    "torrent",
+    "api",
+    "popcorn"
   ],
   "babel": {
     "presets": [
