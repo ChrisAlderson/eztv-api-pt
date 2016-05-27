@@ -2,6 +2,7 @@
 import cheerio from "cheerio";
 import req from "request";
 
+// The default request options
 const defaultOptions = {
   "baseUrl": "https://eztv.ag/",
   "timeout": 3 * 1000
@@ -125,8 +126,7 @@ const EZTV = (options = defaultOptions) => {
   /**
    * @description Get all the shows from eztv.
    * @function EZTV#getAllShows
-   * @memberof module:lib/eztv
-   * @param {Boolean} retry - Retry the function (Default `true`).
+   * @param {Boolean} [retry=true] - Retry the request.
    * @returns {Promise} - A list with all the eztv shows.
    */
   const getAllShows = (retry = true) => {
@@ -135,9 +135,9 @@ const EZTV = (options = defaultOptions) => {
         if (err && retry) {
           return resolve(getAllShows(false));
         } else if (err) {
-          return reject(`${err} with link: 'showlist/'`);
+          return reject(new Error(`${err.code} with link: 'showlist/'`));
         } else if (!body || res.statusCode >= 400) {
-          return reject(`Could not load link: 'showlist/'`);
+          return reject(new Error(`Could not load link: 'showlist/'`));
         } else {
           const $ = cheerio.load(body);
 
@@ -163,9 +163,8 @@ const EZTV = (options = defaultOptions) => {
   /**
    * @description Get all the episodes from a given eztv show.
    * @function EZTV#getShowData
-   * @memberof module:lib/eztv
    * @param {Object} data - Data from a given eztv show.
-   * @param {Boolean} retry - Retry the function (Default `true`).
+   * @param {Boolean} [retry=true] - Retry the request.
    * @returns {Object} - The `data` object with episodes.
    */
   const getShowData = (data, retry = true) => {
@@ -174,9 +173,9 @@ const EZTV = (options = defaultOptions) => {
         if (err && retry) {
           return resolve(getShowData(data, false));
         } else if (err) {
-          return reject(`${err} with link: '$shows/${data.id}/${data.slug}/'`);
+          return reject(new Error(`${err.code} with link: '$shows/${data.id}/${data.slug}/'`));
         } else if (!body || res.statusCode >= 400) {
-          return reject(`Could not find episodes for: '${data.slug}'`);
+          return reject(new Error(`Could not find episodes for: '${data.slug}'`));
         } else {
           const $ = cheerio.load(body);
 

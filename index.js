@@ -154,9 +154,9 @@ var EZTV = function EZTV() {
         if (err && retry) {
           return resolve(getAllShows(false));
         } else if (err) {
-          return reject(err + " with link: 'showlist/'");
+          return reject(new Error(err.code + " with link: 'showlist/'"));
         } else if (!body || res.statusCode >= 400) {
-          return reject("Could not load link: 'showlist/'");
+          return reject(new Error("Could not load link: 'showlist/'"));
         } else {
           var _ret = function () {
             var $ = _cheerio2.default.load(body);
@@ -201,9 +201,9 @@ var EZTV = function EZTV() {
         if (err && retry) {
           return resolve(getShowData(data, false));
         } else if (err) {
-          return reject(err + " with link: '$shows/" + data.id + "/" + data.slug + "/'");
+          return reject(new Error(err.code + " with link: '$shows/" + data.id + "/" + data.slug + "/'"));
         } else if (!body || res.statusCode >= 400) {
-          return reject("Could not find episodes for: '" + data.slug + "'");
+          return reject(new Error("Could not find episodes for: '" + data.slug + "'"));
         } else {
           var _ret2 = function () {
             var $ = _cheerio2.default.load(body);
