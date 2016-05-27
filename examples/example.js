@@ -1,14 +1,16 @@
 // Import the neccesary modules.
-import eztvApi from "../index";
+import eztvApi from "../index.js";
+
+const eztv = eztvApi();
 
 // Get all available shows on eztv.
-eztvApi.getAllShows()
+eztv.getAllShows()
   .then(res => {
     const data = res[0];
     console.log(data);
 
     // Get data including episodes from eztv.
-    eztvApi.getShowData(data)
+    eztv.getShowData(data)
       .then(res => console.log(res));
   })
   .catch(err => console.error(err));

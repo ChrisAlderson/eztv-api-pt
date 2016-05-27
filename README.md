@@ -2,7 +2,35 @@
 
 A eztv api wrapper to get data from [eztv.ag](https://eztv.ag/).
 
-## All shows
+## Usage
+
+Use with default options:
+
+```js
+// Or use 'require'.
+import eztvApi from "ezt-api-pt";
+
+// Use the api without any options.
+const eztv = eztvApi();
+```
+
+Override the default request options:
+
+```js
+// Or use 'require'.
+import eztvApi from "ezt-api-pt";
+
+// For more options see:
+const options = {
+  "baseUrl": "https://eztv.ag/",
+  "timeout": 3 * 1000
+};
+
+// Use the api with options.
+const eztv = eztvApi(options);
+```
+
+### All shows
 
 Example output of getting all the shows:
 
@@ -21,7 +49,7 @@ Example output of getting all the shows:
 }, ...]
 ```
 
-## Show data
+### Show data
 
 Example input of getting data from one show:
 
@@ -59,7 +87,7 @@ within the `season number` is the `episode number` and within the `episode numbe
 
 MIT License
 
-Copyright (c) 2016 - EZTV API - Released under the MIT license.
+Copyright (c) 2016 - eztv-api-pt - Released under the MIT license.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

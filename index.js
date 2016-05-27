@@ -17,18 +17,21 @@ var _request2 = _interopRequireDefault(_request);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var defaultOptions = {
+  "baseUrl": "https://eztv.ag/",
+  "timeout": 3 * 1000
+};
+
 /**
  * @class
  * @classdesc The factory function for getting information from {@link https://eztv.ag/}.
- * @memberof module:lib/eztv
  * @property {Object} request - The request object with added defaults.
  */
 var EZTV = function EZTV() {
+  var options = arguments.length <= 0 || arguments[0] === undefined ? defaultOptions : arguments[0];
 
-  var request = _request2.default.defaults({
-    "baseUrl": "https://eztv.ag/",
-    "timeout": 2 * 1000
-  });
+
+  var request = _request2.default.defaults(options);
 
   var eztvMap = {
     "10-oclock-live": "10-o-clock-live",
@@ -268,4 +271,4 @@ var EZTV = function EZTV() {
 };
 
 // Export the eztv factory function.
-exports.default = EZTV();
+exports.default = EZTV;

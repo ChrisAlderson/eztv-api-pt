@@ -2,18 +2,19 @@
 import cheerio from "cheerio";
 import req from "request";
 
+const defaultOptions = {
+  "baseUrl": "https://eztv.ag/",
+  "timeout": 3 * 1000
+};
+
 /**
  * @class
  * @classdesc The factory function for getting information from {@link https://eztv.ag/}.
- * @memberof module:lib/eztv
  * @property {Object} request - The request object with added defaults.
  */
-const EZTV = () => {
+const EZTV = (options = defaultOptions) => {
 
-  const request = req.defaults({
-    "baseUrl": "https://eztv.ag/",
-    "timeout": 2 * 1000
-  });
+  const request = req.defaults(options);
 
   const eztvMap = {
     "10-oclock-live": "10-o-clock-live",
@@ -238,4 +239,4 @@ const EZTV = () => {
 };
 
 // Export the eztv factory function.
-export default EZTV();
+export default EZTV;
