@@ -1,6 +1,6 @@
 # eztv-api-pt
 
-A eztv api wrapper to get data from [eztv.ag](https://eztv.ag/).
+An eztv api wrapper to get data from [eztv.ag](https://eztv.ag/).
 
 ## Usage
 
