@@ -1,24 +1,24 @@
-# eztv-api-pt
+# EZTV API PT
 
-An eztv api wrapper to get data from [eztv.ag](https://eztv.ag/).
+An EZTV API wrapper to get data from [eztv.ag](https://eztv.ag/).
 
 ## Usage
 
 Use with default options:
 
-```js
-// Or use 'require'.
-import eztvApi from "ezt-api-pt";
+```javascript
+// Import the API wrapper.
+import EZTV from "ezt-api-pt";
 
-// Use the api without any options.
-const eztv = eztvApi();
+// Create an instance of the API wrapper.
+const eztv = new EZTV();
 ```
 
 Override the default request options:
 
-```js
-// Or use 'require'.
-import eztvApi from "ezt-api-pt";
+```javascript
+// Import the API wrapper.
+import EZTV from "ezt-api-pt";
 
 // For more options see:
 const options = {
@@ -26,15 +26,15 @@ const options = {
   "timeout": 3 * 1000
 };
 
-// Use the api with options.
-const eztv = eztvApi(options);
+// Create an instance of the API wrapper.
+const eztv = new EZTV(options);
 ```
 
 ### All shows
 
 Example output of getting all the shows:
 
-```js
+```javascript
 [{
     show: '10 O\'Clock Live',
     id: '449',
@@ -53,7 +53,7 @@ Example output of getting all the shows:
 
 Example input of getting data from one show:
 
-```js
+```javascript
 {
   show: "10 O\'Clock Live",
   id: "449",
@@ -63,7 +63,7 @@ Example input of getting data from one show:
 
 Example output of getting data from one show:
 
-```js
+```javascript
 { show: "10 O\'Clock Live",
   id: "449",
   slug: "tt1811399",
