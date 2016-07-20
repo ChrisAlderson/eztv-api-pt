@@ -1,39 +1,47 @@
 # eztv-api-pt
 
+[![Build Status](https://travis-ci.org/ChrisAlderson/eztv-api-pt.svg?branch=master)]()
+[![Dependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt)
+[![devDependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt#info=devDependencies)
+
 An eztv api wrapper to get data from [eztv.ag](https://eztv.ag/).
 
 ## Usage
 
-Use with default options:
-
-```js
-// Or use 'require'.
-import eztvApi from "ezt-api-pt";
-
-// Use the api without any options.
-const eztv = eztvApi();
+#### Setup
+```
+npm install --save eztv-api-pt
 ```
 
-Override the default request options:
-
+#### Initialize
 ```js
-// Or use 'require'.
-import eztvApi from "ezt-api-pt";
+const EZTV = require("eztv-api-pt");
 
-// For more options see:
-const options = {
-  "baseUrl": "https://eztv.ag/",
-  "timeout": 3 * 1000
-};
-
-// Use the api with options.
-const eztv = eztvApi(options);
+// Options are the request default options.
+let eztv = new EZTV([options, debug]);
 ```
 
-### All shows
+#### Example usage
+```js
+// Import the neccesary modules.
+const EZTV = require("../eztv-api-pt");
 
-Example output of getting all the shows:
+// Setup the api wrapper.
+const eztv = new EZTV();
 
+// Get all available shows on eztv.
+eztv.getAllShows().then(res => {
+  const data = res[0];
+  console.log(data);
+
+  // Get data including episodes from eztv.
+  eztv.getShowData(data).then(res => console.log(res));
+}).catch(err => console.error(err));
+```
+
+## Output
+
+#### getAllShows
 ```js
 [{
     show: '10 O\'Clock Live',
@@ -49,20 +57,7 @@ Example output of getting all the shows:
 }, ...]
 ```
 
-### Show data
-
-Example input of getting data from one show:
-
-```js
-{
-  show: "10 O\'Clock Live",
-  id: "449",
-  slug: "10-o-clock-live"
-}
-```
-
-Example output of getting data from one show:
-
+#### getShowData
 ```js
 { show: "10 O\'Clock Live",
   id: "449",
