@@ -1,7 +1,7 @@
 {
   "name": "eztv-api-pt",
   "version": "1.0.6",
-  "description": "A eztv api wrapper to get data from eztv.ag.",
+  "description": "A EZTV API wrapper to get data from eztv.ag.",
   "dependencies": {
     "cheerio": "~0.20.0",
     "request": "~2.73.0"

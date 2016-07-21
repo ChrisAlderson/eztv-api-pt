@@ -10,7 +10,7 @@ const defaultOptions = {
 
 module.exports = class EZTV {
 
-  constructor(options = defaultOptions, debug = false) {
+  constructor({options = defaultOptions, debug = false} = {}) {
     this.request = req.defaults(options);
     this.debug = debug;
 
@@ -123,7 +123,7 @@ module.exports = class EZTV {
 
   getAllShows(retry = true) {
     const url = "showlist/";
-    if (this.debug) console.warn(`Making request to: ${url}.`);
+    if (this.debug) console.warn(`Making request to: '${url}'`);
     return new Promise((resolve, reject) => {
       this.request(url, (err, res, body) => {
         if (err && retry) {
@@ -132,7 +132,7 @@ module.exports = class EZTV {
         } else if (err) {
           return reject(err);
         } else if (!body || res.statusCode >= 400) {
-          return reject(new Error(`No data found for link: '${url}', statusCode: ${res.statusCode}`));
+          return reject(new Error(`No data found for link: '${url}', statuscode: ${res.statusCode}`));
         } else {
           const $ = cheerio.load(body);
           const eztvMap = this.eztvMap;
@@ -143,7 +143,7 @@ module.exports = class EZTV {
             const id = $(this).attr("href").match(/\/shows\/(.*)\/(.*)\//)[1];
             let slug = $(this).attr("href").match(/\/shows\/(.*)\/(.*)\//)[2];
             slug = slug in eztvMap ? eztvMap[slug] : slug;
-            allShows.push({show: show, id: id, slug: slug});
+            allShows.push({ show, id, slug });
           });
 
           return resolve(allShows);
@@ -154,7 +154,8 @@ module.exports = class EZTV {
 
   getShowData(data, retry = true) {
     const url = `shows/${data.id}/${data.slug}/`;
-    if (this.debug) console.warn(`Making request to: ${url}.`);
+    if (this.debug) console.warn(`Making request to: '${url}'`);
+
     return new Promise((resolve, reject) => {
       this.request(url, (err, res, body) => {
         if (err && retry) {
@@ -163,7 +164,7 @@ module.exports = class EZTV {
         } else if (err) {
           return reject(err);
         } else if (!body || res.statusCode >= 400) {
-          return reject(new Error(`No data found for slug: '${data.slug}', statusCode: ${res.statusCode}`));
+          return reject(new Error(`No data found for slug: '${data.slug}', statuscode: ${res.statusCode}`));
         } else {
           const $ = cheerio.load(body);
 
@@ -178,6 +179,7 @@ module.exports = class EZTV {
           $("tr.forum_header_border[name='hover']").each(function () {
             const title = $(this).children("td").eq(1).text().replace("x264", "");
             const magnet = $(this).children("td").eq(2).children("a.magnet").first().attr("href");
+
             if (magnet === null) return true;
 
             const seasonBased = /S?0*(\d+)?[xE]0*(\d+)/;
@@ -204,11 +206,11 @@ module.exports = class EZTV {
             }
 
             if (season && episode) {
-              if (!data.episodes[season]) data.episodes[season] = {};
-              if (!data.episodes[season][episode]) data.episodes[season][episode] = {};
-              if (!data.episodes[season][episode][quality] || title.toLowerCase().indexOf("repack") > -1) data.episodes[season][episode][quality] = torrent;
-              }
-            });
+              if (!data.episodes[season])  data.episodes[season] = {};
+              if (!data.episodes[season][episode])  data.episodes[season][episode] = {};
+              if (!data.episodes[season][episode][quality] || title.toLowerCase().indexOf("repack") > -1)  data.episodes[season][episode][quality] = torrent;
+            }
+          });
 
           return resolve(data);
         }

@@ -4,7 +4,7 @@
 [![Dependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt)
 [![devDependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt#info=devDependencies)
 
-An eztv api wrapper to get data from [eztv.ag](https://eztv.ag/).
+An EZTV API wrapper to get data from [eztv.ag](https://eztv.ag/).
 
 ## Usage
 
@@ -18,17 +18,11 @@ npm install --save eztv-api-pt
 const EZTV = require("eztv-api-pt");
 
 // Options are the request default options.
-let eztv = new EZTV([options, debug]);
+let eztv = new EZTV({[options, debug]});
 ```
 
 #### Example usage
 ```js
-// Import the neccesary modules.
-const EZTV = require("../eztv-api-pt");
-
-// Setup the api wrapper.
-const eztv = new EZTV();
-
 // Get all available shows on eztv.
 eztv.getAllShows().then(res => {
   const data = res[0];
@@ -51,10 +45,9 @@ eztv.getAllShows().then(res => {
     show: '10 Things I Hate About You',
     id: '308',
     slug: '10-things-i-hate-about-you'
-  }, {
-    show: '100 Things to Do Before High School',
-    id: '1415'
-}, ...]
+  },
+  ...
+]
 ```
 
 #### getShowData
@@ -73,6 +66,7 @@ eztv.getAllShows().then(res => {
         ...
       }
     }
+}
 ```
 
 Nested within the `episodes` property there is the `season number`
