@@ -3,12 +3,12 @@
   "version": "1.0.7",
   "description": "An EZTV API wrapper to get data from eztv.ag.",
   "dependencies": {
-    "cheerio": "~0.20.0",
-    "request": "~2.73.0"
+    "cheerio": "^0.20.0",
+    "request": "^2.74.0"
   },
   "devDependencies": {
-    "chai": "~3.5.0",
-    "mocha": "~2.5.3"
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
   },
   "license": "MIT",
   "scripts": {

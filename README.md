@@ -38,13 +38,13 @@ eztv.getAllShows().then(res => {
 #### getAllShows
 ```js
 [{
-    show: '10 O\'Clock Live',
-    id: '449',
-    slug: '10-o-clock-live'
+    show: "10 O\"Clock Live",
+    id: "449",
+    slug: "10-o-clock-live"
   }, {
-    show: '10 Things I Hate About You',
-    id: '308',
-    slug: '10-things-i-hate-about-you'
+    show: "10 Things I Hate About You",
+    id: "308",
+    slug: "10-things-i-hate-about-you"
   },
   ...
 ]
