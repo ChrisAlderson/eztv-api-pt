@@ -180,7 +180,7 @@ module.exports = class EZTV {
             const title = $(this).children("td").eq(1).text().replace("x264", "");
             const magnet = $(this).children("td").eq(2).children("a.magnet").first().attr("href");
 
-            if (magnet === null) return true;
+            if (!magnet) return true;
 
             const seasonBased = /S?0*(\d+)?[xE]0*(\d+)/;
             const dateBased = /(\d{4}).(\d{2}.\d{2})/;
