@@ -119,7 +119,7 @@ module.exports = class EZTV {
       'tt5397520': 'dark-net',
       'tt5489746': 'evil-lives-here'
     };
-  };
+  }
 
   getAllShows(retry = true) {
     const url = 'showlist/';
@@ -150,7 +150,7 @@ module.exports = class EZTV {
         }
       });
     });
-  };
+  }
 
   getShowData(data, retry = true) {
     const url = `shows/${data.id}/${data.slug}/`;
@@ -216,6 +216,6 @@ module.exports = class EZTV {
         }
       });
     });
-  };
+  }
 
-};
+}
