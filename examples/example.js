@@ -1,5 +1,5 @@
 // Import the neccesary modules.
-const EZTV = require("../eztv-api-pt");
+const EZTV = require('../eztv-api-pt');
 
 const eztv = new EZTV();
 

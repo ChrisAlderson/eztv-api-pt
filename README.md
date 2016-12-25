@@ -15,7 +15,7 @@ npm install --save eztv-api-pt
 
 #### Initialize
 ```js
-const EZTV = require("eztv-api-pt");
+const EZTV = require('eztv-api-pt');
 
 // Options are the request default options.
 let eztv = new EZTV({[options, debug]});
