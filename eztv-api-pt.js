@@ -11,10 +11,10 @@ const defaultOptions = {
 module.exports = class EZTV {
 
   constructor({options = defaultOptions, debug = false} = {}) {
-    this.request = req.defaults(options);
-    this.debug = debug;
+    this._request = req.defaults(options);
+    this._debug = debug;
 
-    this.eztvMap = {
+    this._eztvMap = {
       '10-oclock-live': '10-o-clock-live',
       'battlestar-galactica': 'battlestar-galactica-2003',
       'house-of-cards-2013': 'house-of-cards',
@@ -43,7 +43,7 @@ module.exports = class EZTV {
       'vikings-us': 'vikings'
     };
 
-    this.imdbMap = {
+    this._imdbMap = {
       'tt0093036': 'tt3074694',
       'tt0102517': 'tt1657505',
       'tt0264270': 'the-late-late-show',
@@ -123,11 +123,11 @@ module.exports = class EZTV {
 
   getAllShows(retry = true) {
     const url = 'showlist/';
-    if (this.debug) console.warn(`Making request to: '${url}'`);
+    if (this._debug) console.warn(`Making request to: '${url}'`);
     return new Promise((resolve, reject) => {
-      this.request(url, (err, res, body) => {
+      this._request(url, (err, res, body) => {
         if (err && retry) {
-          if (this.debug) console.warn(`${err.code} trying again.`);
+          if (this._debug) console.warn(`${err.code} trying again.`);
           return resolve(this.getAllShows(false));
         } else if (err) {
           return reject(err);
@@ -135,7 +135,7 @@ module.exports = class EZTV {
           return reject(new Error(`No data found for link: '${url}', statuscode: ${res.statusCode}`));
         } else {
           const $ = cheerio.load(body);
-          const eztvMap = this.eztvMap;
+          const eztvMap = this._eztvMap;
 
           const allShows = [];
           $('.thread_link').each(function () {
@@ -154,12 +154,12 @@ module.exports = class EZTV {
 
   getShowData(data, retry = true) {
     const url = `shows/${data.id}/${data.slug}/`;
-    if (this.debug) console.warn(`Making request to: '${url}'`);
+    if (this._debug) console.warn(`Making request to: '${url}'`);
 
     return new Promise((resolve, reject) => {
-      this.request(url, (err, res, body) => {
+      this._request(url, (err, res, body) => {
         if (err && retry) {
-          if (this.debug) console.warn(`${err.code} trying again.`);
+          if (this._debug) console.warn(`${err.code} trying again.`);
           return resolve(this.getShowData(data, false));
         } else if (err) {
           return reject(err);
@@ -171,7 +171,7 @@ module.exports = class EZTV {
           let imdb = $('div[itemtype="http://schema.org/AggregateRating"]').find('a[target="_blank"]').attr('href');
           if (imdb) {
             imdb = imdb.match(/\/title\/(.*)\//)[1];
-            imdb = imdb in this.imdbMap ? this.imdbMap[imdb] : imdb;
+            imdb = imdb in this._imdbMap ? this._imdbMap[imdb] : imdb;
             data.slug = imdb;
           }
 
