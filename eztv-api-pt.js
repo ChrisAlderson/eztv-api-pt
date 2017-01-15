@@ -121,6 +121,57 @@ module.exports = class EZTV {
     };
   }
 
+  _getShowData(body) {
+    const $ = cheerio.load(body);
+    const response = {
+      episodes: {}
+    };
+
+    let imdb = $('div[itemtype="http://schema.org/AggregateRating"]').find('a[target="_blank"]').attr('href');
+    if (imdb) {
+      imdb = imdb.match(/\/title\/(.*)\//)[1];
+      imdb = imdb in this._imdbMap ? this._imdbMap[imdb] : imdb;
+      response.slug = imdb;
+    }
+
+    $('tr.forum_header_border[name="hover"]').each(function () {
+      const title = $(this).children('td').eq(1).text().replace('x264', '');
+      const magnet = $(this).children('td').eq(2).children('a.magnet').first().attr('href');
+
+      if (!magnet) return true;
+
+      const seasonBased = /S?0*(\d+)?[xE]0*(\d+)/;
+      const dateBased = /(\d{4}).(\d{2}.\d{2})/;
+      const vtv = /(\d{1,2})[x](\d{2})/;
+      const quality = title.match(/(\d{3,4})p/) ? title.match(/(\d{3,4})p/)[0] : '480p';
+
+      let season, episode;
+      const torrent = {
+        url: magnet,
+        seeds: 0,
+        peers: 0,
+        provider: 'EZTV'
+      };
+
+      if (title.match(seasonBased) || title.match(vtv)) {
+        season = parseInt(title.match(seasonBased)[1], 10);
+        episode = parseInt(title.match(seasonBased)[2], 10);
+        response.episodes.dateBased = false;
+      } else if (title.match(dateBased)) {
+        season = title.match(dateBased)[1];
+        episode = title.match(dateBased)[2].replace(/\s/g, '-');
+        response.episodes.dateBased = true;
+      }
+
+      if (season && episode) {
+        if (!response.episodes[season])  response.episodes[season] = {};
+        if (!response.episodes[season][episode])  response.episodes[season][episode] = {};
+        if (!response.episodes[season][episode][quality] || title.toLowerCase().indexOf('repack') > -1)  response.episodes[season][episode][quality] = torrent;
+      }
+    });
+    return response;
+  }
+
   getAllShows(retry = true) {
     const url = 'showlist/';
     if (this._debug) console.warn(`Making request to: '${url}'`);
@@ -166,52 +217,32 @@ module.exports = class EZTV {
         } else if (!body || res.statusCode >= 400) {
           return reject(new Error(`No data found for slug: '${data.slug}', statuscode: ${res.statusCode}`));
         } else {
-          const $ = cheerio.load(body);
+          const showData = this._getShowData(body);
+          data.slug = showData.slug;
+          data.episodes = showData.episodes;
+          return resolve(data);
+        }
+      });
+    });
+  }
 
-          let imdb = $('div[itemtype="http://schema.org/AggregateRating"]').find('a[target="_blank"]').attr('href');
-          if (imdb) {
-            imdb = imdb.match(/\/title\/(.*)\//)[1];
-            imdb = imdb in this._imdbMap ? this._imdbMap[imdb] : imdb;
-            data.slug = imdb;
-          }
+  getShowEpisodes(data, retry = true) {
+    const url = `search/?q1=&q2=${data.id}&search=Search`;
+    if (this._debug) console.warn(`Making request to: '${url}'`);
 
-          data.episodes = {};
-          $('tr.forum_header_border[name="hover"]').each(function () {
-            const title = $(this).children('td').eq(1).text().replace('x264', '');
-            const magnet = $(this).children('td').eq(2).children('a.magnet').first().attr('href');
-
-            if (!magnet) return true;
-
-            const seasonBased = /S?0*(\d+)?[xE]0*(\d+)/;
-            const dateBased = /(\d{4}).(\d{2}.\d{2})/;
-            const vtv = /(\d{1,2})[x](\d{2})/;
-            const quality = title.match(/(\d{3,4})p/) ? title.match(/(\d{3,4})p/)[0] : '480p';
-
-            let season, episode;
-            const torrent = {
-              url: magnet,
-              seeds: 0,
-              peers: 0,
-              provider: 'EZTV'
-            };
-
-            if (title.match(seasonBased) || title.match(vtv)) {
-              season = parseInt(title.match(seasonBased)[1], 10);
-              episode = parseInt(title.match(seasonBased)[2], 10);
-              data.episodes.dateBased = false;
-            } else if (title.match(dateBased)) {
-              season = title.match(dateBased)[1];
-              episode = title.match(dateBased)[2].replace(/\s/g, '-');
-              data.episodes.dateBased = true;
-            }
-
-            if (season && episode) {
-              if (!data.episodes[season])  data.episodes[season] = {};
-              if (!data.episodes[season][episode])  data.episodes[season][episode] = {};
-              if (!data.episodes[season][episode][quality] || title.toLowerCase().indexOf('repack') > -1)  data.episodes[season][episode][quality] = torrent;
-            }
-          });
-
+    return new Promise((resolve, reject) => {
+      this._request(url, (err, res, body) => {
+        if (err && retry) {
+          if (this._debug) console.warn(`${err.code} trying again.`);
+          return resolve(this.getShowEpisodes(data, false));
+        } else if (err) {
+          return reject(err);
+        } else if (!body || res.statusCode >= 400) {
+          return reject(new Error(`No data found for slug: '${data.slug}', statuscode: ${res.statusCode}`));
+        } else {
+          const showData = this._getShowData(body);
+          data.slug = showData.slug;
+          data.episodes = showData.episodes;
           return resolve(data);
         }
       });

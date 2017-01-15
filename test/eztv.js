@@ -37,8 +37,25 @@ describe('EZTV', () => {
     }).catch(err => done(err));
   });
 
+  it('Should get all the episodes of a tv show', done => {
+    eztv.getShowEpisodes(data).then(res => {
+      assert.isObject(res);
+      done();
+    }).catch(err => done(err));
+  });
+
   it('Should get fail to get episodes of a tv show', done => {
     eztv.getShowData(falseData).then(res => {
+      assert.isObject(res);
+      done();
+    }).catch(err => {
+      assert.isOk(err);
+      done();
+    });
+  });
+
+  it('Should get fail to get all the episodes of a tv show', done => {
+    eztv.getShowEpisodes(falseData).then(res => {
       assert.isObject(res);
       done();
     }).catch(err => {

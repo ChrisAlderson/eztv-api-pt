@@ -27,9 +27,14 @@ let eztv = new EZTV({[options, debug]});
 eztv.getAllShows().then(res => {
   const data = res[0];
   console.log(data);
-
-  // Get data including episodes from eztv.
-  eztv.getShowData(data).then(res => console.log(res));
+  
+  // Get data including latest episodes from eztv.
+  eztv.getShowData(data).then(res => {
+    console.log(res);
+    
+    // Get all episodes from eztv.
+    eztv.getShowEpisodes(data).then(res => console.log(res));
+  });
 }).catch(err => console.error(err));
 ```
 
@@ -50,7 +55,7 @@ eztv.getAllShows().then(res => {
 ]
 ```
 
-#### getShowData
+#### getShowData / getShowEpisodes
 ```js
 { show: "10 O\'Clock Live",
   id: "449",
