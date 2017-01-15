@@ -22,26 +22,19 @@ let eztv = new EZTV({[options, debug]});
 ```
 
 #### Example usage
-List all shows + latest episodes for a show
 ```js
 // Get all available shows on eztv.
 eztv.getAllShows().then(res => {
   const data = res[0];
   console.log(data);
-
-  // Get data including episodes from eztv.
-  eztv.getShowData(data).then(res => console.log(res));
-}).catch(err => console.error(err));
-```
-List all shows + all episodes for a show
-```js
-// Get all available shows on eztv.
-eztv.getAllShows().then(res => {
-  const data = res[0];
-  console.log(data);
-
-  // Get all episodes from eztv.
-  eztv.getShowEpisodes(data).then(res => console.log(res));
+  
+  // Get data including latest episodes from eztv.
+  eztv.getShowData(data).then(res => {
+    console.log(res);
+    
+    // Get all episodes from eztv.
+    eztv.getShowEpisodes(data).then(res => console.log(res));
+  });
 }).catch(err => console.error(err));
 ```
 
@@ -62,28 +55,7 @@ eztv.getAllShows().then(res => {
 ]
 ```
 
-#### getShowData
-This method will return the latest episodes for the specified show.
-```js
-{ show: "10 O\'Clock Live",
-  id: "449",
-  slug: "tt1811399",
-  episodes:
-   { "1":
-      { "1":
-         { "480p":
-            { url: "magnet:?xt=urn:btih:LMJXHHNOW33Z3YGXJLCTJZ23WK2D6VO4&dn=10.OClock.Live.S01E01.WS.PDTV.XviD-PVR&tr=udp://tracker.openbittorrent.com:80&tr=udp://open.demonii.com:80&tr=udp://tracker.coppersurfer.tk:80&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://exodus.desync.com:6969",
-              seeds: 0,
-              peers: 0,
-              provider: "EZTV" } },
-        ...
-      }
-    }
-}
-```
-
-#### getShowEpisodes
-This method will return all the available episodes for the specified show.
+#### getShowData / getShowEpisodes
 ```js
 { show: "10 O\'Clock Live",
   id: "449",
