@@ -27,14 +27,12 @@ let eztv = new EZTV({[options, debug]});
 eztv.getAllShows().then(res => {
   const data = res[0];
   console.log(data);
-  
+
   // Get data including latest episodes from eztv.
-  eztv.getShowData(data).then(res => {
-    console.log(res);
-    
-    // Get all episodes from eztv.
-    eztv.getShowEpisodes(data).then(res => console.log(res));
-  });
+  eztv.getShowData(data).then(res => console.log(res);
+
+  // Or get all episodes from eztv.
+  // eztv.getShowEpisodes(data).then(res => console.log(res);
 }).catch(err => console.error(err));
 ```
 
