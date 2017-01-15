@@ -121,8 +121,25 @@ module.exports = class EZTV {
     };
   }
 
-  _getShowData(body) {
-    const $ = cheerio.load(body);
+  _get(uri, qs, retry = true) {
+    if (this._debug) console.warn(`Making request to: '${uri}'`);
+    return new Promise((resolve, reject) => {
+      this._request.get({ uri, qs }, (err, res, body) => {
+        if (err && retry) {
+          if (this._debug) console.warn(`${err.code} trying again.`);
+          return resolve(this._get(uri, qs, false));
+        } else if (err) {
+          return reject(err);
+        } else if (!body || res.statusCode >= 400) {
+          return reject(new Error(`No data found for link: '${uri}', statuscode: ${res.statusCode}`));
+        } else {
+          return resolve(cheerio.load(body));
+        }
+      });
+    });
+  }
+
+  _getShowData($) {
     const response = {
       episodes: {}
     };
@@ -172,81 +189,38 @@ module.exports = class EZTV {
     return response;
   }
 
-  getAllShows(retry = true) {
-    const url = 'showlist/';
-    if (this._debug) console.warn(`Making request to: '${url}'`);
-    return new Promise((resolve, reject) => {
-      this._request(url, (err, res, body) => {
-        if (err && retry) {
-          if (this._debug) console.warn(`${err.code} trying again.`);
-          return resolve(this.getAllShows(false));
-        } else if (err) {
-          return reject(err);
-        } else if (!body || res.statusCode >= 400) {
-          return reject(new Error(`No data found for link: '${url}', statuscode: ${res.statusCode}`));
-        } else {
-          const $ = cheerio.load(body);
-          const eztvMap = this._eztvMap;
+  _getEpisodeData(data, $) {
+    const showData = this._getShowData($);
+    data.slug = showData.slug;
+    data.episodes = showData.episodes;
+    return data;
+  }
 
-          const allShows = [];
-          $('.thread_link').each(function () {
-            const show = $(this).text();
-            const id = $(this).attr('href').match(/\/shows\/(.*)\/(.*)\//)[1];
-            let slug = $(this).attr('href').match(/\/shows\/(.*)\/(.*)\//)[2];
-            slug = slug in eztvMap ? eztvMap[slug] : slug;
-            allShows.push({ show, id, slug });
-          });
+  getAllShows() {
+    return this._get('showlist/').then($ => {
+      const eztvMap = this._eztvMap;
 
-          return resolve(allShows);
-        }
+      const allShows = [];
+      $('.thread_link').each(function () {
+        const show = $(this).text();
+        const id = $(this).attr('href').match(/\/shows\/(.*)\/(.*)\//)[1];
+        let slug = $(this).attr('href').match(/\/shows\/(.*)\/(.*)\//)[2];
+        slug = slug in eztvMap ? eztvMap[slug] : slug;
+        allShows.push({ show, id, slug });
       });
+
+      return allShows;
     });
   }
 
-  getShowData(data, retry = true) {
-    const url = `shows/${data.id}/${data.slug}/`;
-    if (this._debug) console.warn(`Making request to: '${url}'`);
-
-    return new Promise((resolve, reject) => {
-      this._request(url, (err, res, body) => {
-        if (err && retry) {
-          if (this._debug) console.warn(`${err.code} trying again.`);
-          return resolve(this.getShowData(data, false));
-        } else if (err) {
-          return reject(err);
-        } else if (!body || res.statusCode >= 400) {
-          return reject(new Error(`No data found for slug: '${data.slug}', statuscode: ${res.statusCode}`));
-        } else {
-          const showData = this._getShowData(body);
-          data.slug = showData.slug;
-          data.episodes = showData.episodes;
-          return resolve(data);
-        }
-      });
-    });
+  getShowData(data) {
+    return this._get(`shows/${data.id}/${data.slug}/`)
+      .then(res => this._getEpisodeData(data, res));
   }
 
-  getShowEpisodes(data, retry = true) {
-    const url = `search/?q1=&q2=${data.id}&search=Search`;
-    if (this._debug) console.warn(`Making request to: '${url}'`);
-
-    return new Promise((resolve, reject) => {
-      this._request(url, (err, res, body) => {
-        if (err && retry) {
-          if (this._debug) console.warn(`${err.code} trying again.`);
-          return resolve(this.getShowEpisodes(data, false));
-        } else if (err) {
-          return reject(err);
-        } else if (!body || res.statusCode >= 400) {
-          return reject(new Error(`No data found for slug: '${data.slug}', statuscode: ${res.statusCode}`));
-        } else {
-          const showData = this._getShowData(body);
-          data.slug = showData.slug;
-          data.episodes = showData.episodes;
-          return resolve(data);
-        }
-      });
-    });
+  getShowEpisodes(data) {
+    return this._get(`search/`, {q2: data.id})
+      .then(res => this._getEpisodeData(data, res));
   }
 
 }
