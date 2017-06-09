@@ -11,7 +11,7 @@ eztv.getAllShows().then(res => {
   console.log(data);
 
   // Get data including latest episodes from eztv.
-  eztv.getShowData(data).then(res => console.log(res);
+  eztv.getShowData(data).then(res => console.log(res));
 
   // Or get all episodes from eztv.
   // eztv.getShowEpisodes(data).then(res => console.log(res);
