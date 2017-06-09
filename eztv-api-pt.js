@@ -1,20 +1,15 @@
 'use strict';
 
 const cheerio = require('cheerio');
-const request = require('request');
-
-const defaultOptions = {
-  'baseUrl': 'https://eztv.ag/',
-  'timeout': 3 * 1000
-};
+const got = require('got');
 
 module.exports = class EZTV {
 
-  constructor({options = defaultOptions, debug = false} = {}) {
-    this._request = request.defaults(options);
+  constructor({baseUrl = 'https://eztv.ag/', debug = false} = {}) {
+    this._baseUrl = baseUrl;
     this._debug = debug;
 
-    this._eztvMap = {
+    EZTV._eztvMap = {
       '10-oclock-live': '10-o-clock-live',
       'battlestar-galactica': 'battlestar-galactica-2003',
       'house-of-cards-2013': 'house-of-cards',
@@ -43,7 +38,7 @@ module.exports = class EZTV {
       'vikings-us': 'vikings'
     };
 
-    this._imdbMap = {
+    EZTV._imdbMap = {
       'tt0093036': 'tt3074694',
       'tt0102517': 'tt1657505',
       'tt0264270': 'the-late-late-show',
@@ -121,45 +116,34 @@ module.exports = class EZTV {
     };
   }
 
-  _get(uri, qs, retry = true) {
-    if (this._debug) console.warn(`Making request to: '${uri}'`);
-    return new Promise((resolve, reject) => {
-      this._request.get({ uri, qs }, (err, res, body) => {
-        if (err && retry) {
-          if (this._debug) console.warn(`${err.code} trying again.`);
-          return resolve(this._get(uri, qs, false));
-        } else if (err) {
-          return reject(err);
-        } else if (!body || res.statusCode >= 400) {
-          return reject(new Error(`No data found for link: '${uri}', statuscode: ${res.statusCode}`));
-        } else {
-          return resolve(cheerio.load(body));
-        }
-      });
-    });
+  _get(uri, query = {}) {
+    if (this._debug)
+      console.warn(`Making request to: '${uri}${querystring.stringify(query)}'`);
+
+    return got.get(`${this._baseUrl}/${uri}`, { query })
+      .then(({body}) => cheerio.load(body));
   }
 
-  _getShowData($) {
-    const response = {
-      episodes: {}
-    };
-
-    let imdb = $('div[itemtype="http://schema.org/AggregateRating"]').find('a[target="_blank"]').attr('href');
-    if (imdb) {
-      imdb = imdb.match(/\/title\/(.*)\//)[1];
-      imdb = imdb in this._imdbMap ? this._imdbMap[imdb] : imdb;
-      response.slug = imdb;
-    }
+  _getEpisodeData(data, $) {
+    let imdb = $('div[itemtype="http://schema.org/AggregateRating"]').find('a[target="_blank"]')
+                                                                     .attr('href');
+    imdb = imdb ? imdb.match(/\/title\/(.*)\//)[1] : undefined;
+    imdb = imdb in EZTV._imdbMap ? EZTV._imdbMap[imdb] : imdb;
+    data.imdb = imdb;
 
     $('tr.forum_header_border[name="hover"]').each(function () {
-      const title = $(this).children('td').eq(1).text().replace('x264', '');
-      const magnet = $(this).children('td').eq(2).children('a.magnet').first().attr('href');
+      const title = $(this).children('td').eq(1)
+                                          .text()
+                                          .replace('x264', '');
+      const magnet = $(this).children('td').eq(2)
+                                           .children('a.magnet')
+                                           .first()
+                                           .attr('href');
 
-      if (!magnet) return true;
+      if (!magnet) return;
 
-      const seasonBased = /S?0*(\d+)?[xE]0*(\d+)/;
+      const seasonBased = /S?0*(\d+).[xE]0*(\d+)/;
       const dateBased = /(\d{4}).(\d{2}.\d{2})/;
-      const vtv = /(\d{1,2})[x](\d{2})/;
       const quality = title.match(/(\d{3,4})p/) ? title.match(/(\d{3,4})p/)[0] : '480p';
 
       let season, episode;
@@ -170,43 +154,50 @@ module.exports = class EZTV {
         provider: 'EZTV'
       };
 
-      if (title.match(seasonBased) || title.match(vtv)) {
+      data.episodes = {}
+      if (title.match(seasonBased)) {
         season = parseInt(title.match(seasonBased)[1], 10);
         episode = parseInt(title.match(seasonBased)[2], 10);
-        response.episodes.dateBased = false;
+        data.episodes.dateBased = false;
       } else if (title.match(dateBased)) {
         season = title.match(dateBased)[1];
         episode = title.match(dateBased)[2].replace(/\s/g, '-');
-        response.episodes.dateBased = true;
+        data.episodes.dateBased = true;
+      } else {
+        return;
       }
 
       if (season && episode) {
-        if (!response.episodes[season])  response.episodes[season] = {};
-        if (!response.episodes[season][episode])  response.episodes[season][episode] = {};
-        if (!response.episodes[season][episode][quality] || title.toLowerCase().indexOf('repack') > -1)  response.episodes[season][episode][quality] = torrent;
+        if (!data.episodes[season])
+          data.episodes[season] = {};
+        if (!data.episodes[season][episode])
+          data.episodes[season][episode] = {};
+        if (!data.episodes[season][episode][quality] || title.toLowerCase().indexOf('repack') > -1)
+          data.episodes[season][episode][quality] = torrent;
       }
     });
-    return response;
-  }
 
-  _getEpisodeData(data, $) {
-    const showData = this._getShowData($);
-    data.slug = showData.slug;
-    data.episodes = showData.episodes;
     return data;
   }
 
   getAllShows() {
     return this._get('showlist/').then($ => {
-      const eztvMap = this._eztvMap;
+      const eztvMap = EZTV._eztvMap;
+
+      const regex = /\/shows\/(.*)\/(.*)\//;
 
       const allShows = [];
       $('.thread_link').each(function () {
         const show = $(this).text();
-        const id = $(this).attr('href').match(/\/shows\/(.*)\/(.*)\//)[1];
-        let slug = $(this).attr('href').match(/\/shows\/(.*)\/(.*)\//)[2];
+        const id = $(this).attr('href').match(regex)[1];
+        let slug = $(this).attr('href').match(regex)[2];
         slug = slug in eztvMap ? eztvMap[slug] : slug;
-        allShows.push({ show, id, slug });
+
+        allShows.push({
+          show,
+          id,
+          slug
+        });
       });
 
       return allShows;
@@ -219,8 +210,9 @@ module.exports = class EZTV {
   }
 
   getShowEpisodes(data) {
-    return this._get(`search/`, {q2: data.id})
-      .then(res => this._getEpisodeData(data, res));
+    return this._get(`search/`, {
+      q2: data.id
+    }).then(res => this._getEpisodeData(data, res));
   }
 
 }
