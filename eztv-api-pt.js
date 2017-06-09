@@ -2,6 +2,7 @@
 
 const cheerio = require('cheerio');
 const got = require('got');
+const querystring = require('querystring');
 
 module.exports = class EZTV {
 
