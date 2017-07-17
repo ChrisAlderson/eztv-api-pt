@@ -49,6 +49,9 @@ describe('EZTV', () => {
 
   it('should get a list of tv shows', done => {
     eztv.getAllShows().then(res => {
+      expect(res).to.be.an('array')
+      expect(res.length).to.be.at.least(1)
+
       const random = Math.floor(Math.random() * res.length)
       testShowAttributes(res[random])
 
@@ -99,7 +102,7 @@ describe('EZTV', () => {
       testShowAttributes(res)
       expect(res.imdb).to.be.a('string')
       expect(res.episodes).to.be.an('object')
-      
+
       done()
     }).catch(done)
   })
