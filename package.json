@@ -3,8 +3,8 @@
   "version": "1.0.12",
   "description": "An EZTV API wrapper to get data from eztv.ag.",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.1",
-    "got": "^7.0.0"
+    "cheerio": "^1.0.0-rc.2",
+    "got": "^7.1.0"
   },
   "devDependencies": {
     "chai": "^4.1.0",
