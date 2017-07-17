@@ -15,25 +15,25 @@ npm install --save eztv-api-pt
 
 #### Initialize
 ```js
-const EZTV = require('eztv-api-pt');
+const EZTV = require('eztv-api-pt')
 
 // Options are the request default options.
-let eztv = new EZTV({[options, debug]});
+let eztv = new EZTV({[options, debug]})
 ```
 
 #### Example usage
 ```js
 // Get all available shows on eztv.
 eztv.getAllShows().then(res => {
-  const data = res[0];
-  console.log(data);
+  const data = res[0]
+  console.log(data)
 
   // Get data including latest episodes from eztv.
-  eztv.getShowData(data).then(res => console.log(res);
+  eztv.getShowData(data).then(res => console.log(res)
 
   // Or get all episodes from eztv.
-  // eztv.getShowEpisodes(data).then(res => console.log(res);
-}).catch(err => console.error(err));
+  // eztv.getShowEpisodes(data).then(res => console.log(res)
+}).catch(err => console.error(err))
 ```
 
 ## Output
@@ -73,13 +73,14 @@ eztv.getAllShows().then(res => {
 ```
 
 Nested within the `episodes` property there is the `season number`
-within the `season number` is the `episode number` and within the `episode number` are the different `qualities` of the torrent.
+within the `season number` is the `episode number` and within the
+`episode number` are the different `qualities` of the torrent.
 
 # License
 
 MIT License
 
-Copyright (c) 2016 - eztv-api-pt - Released under the MIT license.
+Copyright (c) 2017 - eztv-api-pt - Released under the MIT license.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
