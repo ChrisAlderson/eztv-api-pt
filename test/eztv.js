@@ -40,7 +40,7 @@ describe('EZTV', () => {
     }
   })
 
-  function testShowAttributes(show) {
+  function testShowAttributes (show) {
     expect(show).to.be.an('object')
     expect(show.show).to.be.a('string')
     expect(show.id).to.be.a('number')

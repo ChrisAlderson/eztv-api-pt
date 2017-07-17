@@ -223,11 +223,8 @@ module.exports = class EZTV {
   }
 
   getShowEpisodes(data) {
-    return this._get(`search/`
-    //   {
-    //   q2: data.id
-    // }
-  ).then($ => this._getEpisodeData(data, $))
+    return this._get(`search/`)
+      .then($ => this._getEpisodeData(data, $))
   }
 
 }
