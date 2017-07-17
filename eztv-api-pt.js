@@ -202,7 +202,7 @@ module.exports = class EZTV {
       const allShows = []
       $('.thread_link').each(function () {
         const show = $(this).text()
-        const id = $(this).attr('href').match(regex)[1]
+        const id = parseInt($(this).attr('href').match(regex)[1], 10)
         let slug = $(this).attr('href').match(regex)[2]
         slug = slug in eztvMap ? eztvMap[slug] : slug
 
@@ -219,13 +219,15 @@ module.exports = class EZTV {
 
   getShowData(data) {
     return this._get(`shows/${data.id}/${data.slug}/`)
-      .then(res => this._getEpisodeData(data, res))
+      .then($ => this._getEpisodeData(data, $))
   }
 
   getShowEpisodes(data) {
-    return this._get(`search/`, {
-      q2: data.id
-    }).then(res => this._getEpisodeData(data, res))
+    return this._get(`search/`
+    //   {
+    //   q2: data.id
+    // }
+  ).then($ => this._getEpisodeData(data, $))
   }
 
 }
