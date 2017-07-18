@@ -73,16 +73,16 @@ eztv.getAllShows().then(res => {
 }
 ```
 
+Nested within the `episodes` property there is the `season number`
+within the `season number` is the `episode number` and within the
+`episode number` are the different `qualities` of the torrent.
+
 ## Testing
 
 You can run tests with the following npm command:
 ```
  $ npm test
 ```
-
-Nested within the `episodes` property there is the `season number`
-within the `season number` is the `episode number` and within the
-`episode number` are the different `qualities` of the torrent.
 
 # License
 
