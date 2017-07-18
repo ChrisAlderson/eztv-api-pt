@@ -33,7 +33,7 @@ eztv.getAllShows().then(res => {
   eztv.getShowData(data).then(res => console.log(res)
 
   // Or get all episodes from eztv.
-  // eztv.getShowEpisodes(data).then(res => console.log(res)
+  // eztv.getShowEpisodes(data).then(res => console.log(res))
 }).catch(err => console.error(err))
 ```
 
@@ -71,6 +71,13 @@ eztv.getAllShows().then(res => {
       }
     }
 }
+```
+
+## Testing
+
+You can run tests with the following npm command:
+```
+ $ npm test
 ```
 
 Nested within the `episodes` property there is the `season number`
