@@ -134,6 +134,7 @@ module.exports = class EZTV {
     imdb = imdb in EZTV._imdbMap ? EZTV._imdbMap[imdb] : imdb
     data.imdb = imdb
 
+    data.episodes = {}
     $('tr.forum_header_border[name="hover"]').each(function () {
       const title = $(this).children('td').eq(1)
         .text()
@@ -161,7 +162,6 @@ module.exports = class EZTV {
         provider: 'EZTV'
       }
 
-      data.episodes = {}
       if (title.match(seasonBased)) {
         season = parseInt(title.match(seasonBased)[1], 10)
         episode = parseInt(title.match(seasonBased)[2], 10)

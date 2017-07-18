@@ -14,9 +14,9 @@ describe('EZTV', () => {
     })
 
     show = {
-      show: '10 O\'Clock Live',
-      id: 449,
-      slug: '10-o-clock-live'
+      show: 'Dark Net',
+      id: 1597,
+      slug: 'dark-net'
     }
     falseShow = {
       show: 'False Show Name',
@@ -60,6 +60,7 @@ describe('EZTV', () => {
   })
 
   it('should get a show', done => {
+    eztv._debug = false
     eztv.getShowData(show).then(res => {
       testShowAttributes(res)
       expect(res.imdb).to.be.a('string')
