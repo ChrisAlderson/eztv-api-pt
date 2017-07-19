@@ -1,15 +1,50 @@
 'use strict'
 
+// Import the necessary modules.
 const cheerio = require('cheerio')
 const got = require('got')
 
-module.exports = class EZTV {
+/**
+ * Show object which will be returned.
+ * @typedef {Object} Show
+ * @property {!string} show The name of the show.
+ * @property {!number} id The eztv id of the show.
+ * @property {!string} slug The slug of the show.
+ * @property {?string} imdb The imdb code of the show.
+ * @property {?Object} episodes The episodes of the show.
+ */
 
+/**
+ * An EZTV API wrapper to get data from eztv.ag.
+ * @type {EztvApi}
+ */
+export default class EztvApi {
+// module.exports = class EztvApi {
+
+  /**
+   * Create a new instance of the module.
+   * @param {!Object} config={} - The configuration object for the module.
+   * @param {!string} baseUrl=https://eztv.ag/ - The base url of eztv.
+   * @param {?boolean} [debug=false] - Show extra output.
+   */
   constructor({baseUrl = 'https://eztv.ag/', debug = false} = {}) {
+    /**
+     * The base url of eztv.
+     * @type {string}
+     */
     this._baseUrl = baseUrl
+
+    /**
+     * Show extra output.
+     * @type {boolean}
+     */
     this._debug = debug
 
-    EZTV._eztvMap = {
+    /**
+     * Maps the EZTV slugs to trakt.tv slugs.
+     * @type {Object}
+     */
+    EztvApi._eztvMap = {
       '10-oclock-live': '10-o-clock-live',
       'battlestar-galactica': 'battlestar-galactica-2003',
       'house-of-cards-2013': 'house-of-cards',
@@ -38,7 +73,11 @@ module.exports = class EZTV {
       'vikings-us': 'vikings'
     }
 
-    EZTV._imdbMap = {
+    /**
+     * Maps the EZTV imdb codes to trakt.tv imdb codes.
+     * @type {Object}
+     */
+    EztvApi._imdbMap = {
       'tt0093036': 'tt3074694',
       'tt0102517': 'tt1657505',
       'tt0264270': 'the-late-late-show',
@@ -116,8 +155,13 @@ module.exports = class EZTV {
     }
   }
 
-  _get(uri) {
-    const url =  `${this._baseUrl}${uri}`
+  /**
+   * Make a get request to eztv.ag.
+   * @param {!string} endpoint - The endpoint to make the request to.
+   * @returns {Promise<Object, void>} - The response body wrapped in cheerio.
+   */
+  _get(endpoint) {
+    const url =  `${this._baseUrl}${endpoint}`
 
     if (this._debug) {
       console.warn(`Making request to: '${url}'`)
@@ -127,12 +171,18 @@ module.exports = class EZTV {
       .then(({body}) => cheerio.load(body))
   }
 
+  /**
+   * Get additional data from a show, like imdb codes and episodes.
+   * @param {Show} data - The show you want additional data from.
+   * @param {Function} $ - The cheerio function.
+   * @returns {Show} - The show with additional data.
+   */
   _getEpisodeData(data, $) {
     let imdb = $('div[itemtype="http://schema.org/AggregateRating"]')
       .find('a[target="_blank"]')
       .attr('href')
     imdb = imdb ? imdb.match(/\/title\/(.*)\//)[1] : undefined
-    imdb = imdb in EZTV._imdbMap ? EZTV._imdbMap[imdb] : imdb
+    imdb = imdb in EztvApi._imdbMap ? EztvApi._imdbMap[imdb] : imdb
     if (imdb) {
       data.imdb = imdb
     }
@@ -201,6 +251,10 @@ module.exports = class EZTV {
     return data
   }
 
+  /**
+   * Get all the available shows from eztv.
+   * @return {Array<Show>} - All the available shows from eztv.
+   */
   getAllShows() {
     return this._get('showlist/').then($ => {
       const regex = /\/shows\/(.*)\/(.*)\//
@@ -209,7 +263,7 @@ module.exports = class EZTV {
         const show = $(this).text()
         const id = parseInt($(this).attr('href').match(regex)[1], 10)
         let slug = $(this).attr('href').match(regex)[2]
-        slug = slug in EZTV._eztvMap ? EZTV._eztvMap[slug] : slug
+        slug = slug in EztvApi._eztvMap ? EztvApi._eztvMap[slug] : slug
 
         return {
           show,
@@ -220,11 +274,21 @@ module.exports = class EZTV {
     })
   }
 
+  /**
+   * Get episodes for a show.
+   * @param {Show} data - Teh show to get episodes for.
+   * @returns {Show} - The show with additional data.
+   */
   getShowData(data) {
     return this._get(`shows/${data.id}/${data.slug}/`)
       .then($ => this._getEpisodeData(data, $))
   }
 
+  /**
+   * Search for episodes of a show.
+   * @param {Show} data - The show to get episodes for.
+   * @returns {Show} - The show with additional data.
+   */
   getShowEpisodes(data) {
     return this._get(`search/`)
       .then($ => this._getEpisodeData(data, $))

@@ -16,9 +16,9 @@ npm install --save eztv-api-pt
 
 #### Initialize
 ```js
-const EZTV = require('eztv-api-pt')
+const EztvApi = require('eztv-api-pt')
 
-const eztv = new EZTV({[
+const eztv = new EztvApi({[
   baseUrl, // The base url of eztv. Defaults to 'https://eztv.ag/'
   debug // Show extra output. Defaults to 'false'
 ]})
@@ -33,11 +33,11 @@ eztv.getAllShows().then(res => {
 
   // Get data including latest episodes from eztv.
   eztv.getShowData(data)
-    .then(res => console.log(res)
+    .then(res => console.log(res))
 
   // Or get all episodes from eztv.
   // eztv.getShowEpisodes(data)
-  //   .then(res => console.log(res))
+  //   .then(res => console.log(res)
 }).catch(err => console.error(err))
 ```
 
@@ -46,13 +46,13 @@ eztv.getAllShows().then(res => {
 #### getAllShows
 ```js
 [{
-    show: "10 O\"Clock Live",
-    id: "449",
-    slug: "10-o-clock-live"
+    show: '10 O\'Clock Live',
+    id: 449,
+    slug: '10-o-clock-live'
   }, {
-    show: "10 Things I Hate About You",
-    id: "308",
-    slug: "10-things-i-hate-about-you"
+    show: '10 Things I Hate About You',
+    id: 308,
+    slug: '10-things-i-hate-about-you'
   },
   ...
 ]
@@ -60,17 +60,17 @@ eztv.getAllShows().then(res => {
 
 #### getShowData / getShowEpisodes
 ```js
-{ show: "10 O\'Clock Live",
-  id: "449",
-  slug: "tt1811399",
+{ show: '10 O\'Clock Live',
+  id: 449,
+  slug: 'tt1811399',
   episodes:
-   { "1":
-      { "1":
-         { "480p":
-            { url: "magnet:?xt=urn:btih:LMJXHHNOW33Z3YGXJLCTJZ23WK2D6VO4&dn=10.OClock.Live.S01E01.WS.PDTV.XviD-PVR&tr=udp://tracker.openbittorrent.com:80&tr=udp://open.demonii.com:80&tr=udp://tracker.coppersurfer.tk:80&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://exodus.desync.com:6969",
+   { '1':
+      { '1':
+         { '480p':
+            { url: 'magnet:?xt=urn:btih:LMJXHHNOW33Z3YGXJLCTJZ23WK2D6VO4&dn=10.OClock.Live.S01E01.WS.PDTV.XviD-PVR&tr=udp://tracker.openbittorrent.com:80&tr=udp://open.demonii.com:80&tr=udp://tracker.coppersurfer.tk:80&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://exodus.desync.com:6969',
               seeds: 0,
               peers: 0,
-              provider: "EZTV" } },
+              provider: 'EZTV' } },
         ...
       }
     }

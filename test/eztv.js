@@ -1,15 +1,57 @@
 'use strict'
 
 /* eslint-disable no-unused-expressions */
+// Import the necessary modules.
 const { expect } = require('chai')
-const EZTV = require('../eztv-api-pt')
+const EztvApi = require('../eztv-api-pt')
 
-describe('EZTV', () => {
-  let eztv, show, falseShow, dateBasedShow, noEpisodesShow, noMagnetShow
+/** @test {EztvApi} */
+describe('EztvApi', () => {
+  /**
+   * The EztvApi instance.
+   * @type {EztvApi}
+   */
+  let eztv
 
+  /**
+   * A normal show.
+   * @type {Show}
+   */
+  let show
+
+  /**
+   * A non-existent show.
+   * @type {show}
+   */
+  let falseShow
+
+  /**
+   * A date based show.
+   * @type {Show}
+   */
+  let dateBasedShow
+
+  /**
+   * A show with no episodes.
+   * @type {Show}
+   */
+  let noEpisodesShow
+
+  /**
+   * A show with no magnet links.
+   * @type {Show}
+   */
+  let noMagnetShow
+
+  /**
+   * Hook for setting up the EztvApi tests.
+   * @type {Function}
+   */
   before(() => {
+    // Disable the warn logging function to testing.
     console.warn = () => {}
-    eztv = new EZTV({
+
+    eztv = new EztvApi({
       debug: true
     })
 
@@ -40,6 +82,11 @@ describe('EZTV', () => {
     }
   })
 
+  /**
+   * Test the show attributes.
+   * @param {Show} show - The show to test.
+   * @returnd {undefined}
+   */
   function testShowAttributes(show) {
     expect(show).to.be.an('object')
     expect(show.show).to.be.a('string')
@@ -47,6 +94,7 @@ describe('EZTV', () => {
     expect(show.slug).to.be.a('string')
   }
 
+  /** @test {EztvApi#getAllShows} */
   it('should get a list of tv shows', done => {
     eztv.getAllShows().then(res => {
       expect(res).to.be.an('array')
@@ -59,7 +107,9 @@ describe('EZTV', () => {
     }).catch(done)
   })
 
+  /** @test {EztvApi#getShowData} */
   it('should get a show', done => {
+    // For branch coverage.
     eztv._debug = false
     eztv.getShowData(show).then(res => {
       testShowAttributes(res)
@@ -70,6 +120,7 @@ describe('EZTV', () => {
     }).catch(done)
   })
 
+  /** @test {EztvApi#getShowEpisodes} */
   it('should search for a show', done => {
     eztv.getShowEpisodes(show).then(res => {
       testShowAttributes(res)
@@ -79,6 +130,7 @@ describe('EZTV', () => {
     }).catch(done)
   })
 
+  /** @test {EztvApi#getShowData} */
   it('should get a date based show', done => {
     eztv.getShowData(dateBasedShow).then(res => {
       testShowAttributes(res)
@@ -89,6 +141,7 @@ describe('EZTV', () => {
     }).catch(done)
   })
 
+  /** @test {EztvApi#getShowData} */
   it('should get a show with no episodes', done => {
     eztv.getShowData(noEpisodesShow).then(res => {
       testShowAttributes(res)
@@ -99,6 +152,7 @@ describe('EZTV', () => {
     }).catch(done)
   })
 
+  /** @test {EztvApi#getShowData} */
   it('should get a show with no magnet links', done => {
     eztv.getShowData(noMagnetShow).then(res => {
       testShowAttributes(res)
@@ -109,6 +163,7 @@ describe('EZTV', () => {
     }).catch(done)
   })
 
+  /** @test {EztvApi#getShowData} */
   it('should fail to get a show', done => {
     eztv.getShowData(falseShow).then(done).catch(err => {
       expect(err).to.be.an('Error')
