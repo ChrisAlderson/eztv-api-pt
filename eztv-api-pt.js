@@ -175,6 +175,10 @@ module.exports = class EZTV {
       }
 
       if (season && episode) {
+        if (!data.episodes) {
+          data.episodes = {}
+        }
+
         if (!data.episodes[season]) {
           data.episodes[season] = {}
         }

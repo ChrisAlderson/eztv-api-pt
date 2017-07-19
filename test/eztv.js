@@ -92,6 +92,7 @@ describe('EZTV', () => {
     eztv.getShowData(noEpisodesShow).then(res => {
       testShowAttributes(res)
       expect(res.imdb).to.be.a('string')
+      expect(res.episodes).to.be.undefined
 
       done()
     }).catch(done)
@@ -108,11 +109,10 @@ describe('EZTV', () => {
   })
 
   it('should fail to get a show', done => {
-    eztv.getShowData(falseShow)
-      .then(done)
-      .catch(err => {
-        expect(err).to.be.an('Error')
-        done()
-      })
+    eztv.getShowData(falseShow).then(done).catch(err => {
+      expect(err).to.be.an('Error')
+
+      done()
+    })
   })
 })
