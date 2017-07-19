@@ -134,7 +134,9 @@ module.exports = class EZTV {
       .attr('href')
     imdb = imdb ? imdb.match(/\/title\/(.*)\//)[1] : undefined
     imdb = imdb in EZTV._imdbMap ? EZTV._imdbMap[imdb] : imdb
-    data.imdb = imdb
+    if (imdb) {
+      data.imdb = imdb
+    }
 
     data.episodes = {}
     $('tr.forum_header_border[name="hover"]').each(function () {
