@@ -18,8 +18,7 @@ const got = require('got')
  * An EZTV API wrapper to get data from eztv.ag.
  * @type {EztvApi}
  */
-export default class EztvApi {
-// module.exports = class EztvApi {
+module.exports = class EztvApi {
 
   /**
    * Create a new instance of the module.
@@ -161,7 +160,7 @@ export default class EztvApi {
    * @returns {Promise<Object, void>} - The response body wrapped in cheerio.
    */
   _get(endpoint) {
-    const url =  `${this._baseUrl}${endpoint}`
+    const url = `${this._baseUrl}${endpoint}`
 
     if (this._debug) {
       console.warn(`Making request to: '${url}'`)
