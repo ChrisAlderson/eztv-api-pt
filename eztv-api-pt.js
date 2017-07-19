@@ -138,7 +138,6 @@ module.exports = class EZTV {
       data.imdb = imdb
     }
 
-    data.episodes = {}
     $('tr.forum_header_border[name="hover"]').each(function () {
       const title = $(this).children('td').eq(1)
         .text()
@@ -152,8 +151,8 @@ module.exports = class EZTV {
         return
       }
 
-      const seasonBased = /S?0*(\d+).[xE]0*(\d+)/
-      const dateBased = /(\d{4}).(\d{2}.\d{2})/
+      const seasonBased = /S?0*(\d+)[xE]0*(\d+)/i
+      const dateBased = /(\d{4}).(\d{2}.\d{2})/i
       const quality = title.match(/(\d{3,4})p/)
         ? title.match(/(\d{3,4})p/)[0]
         : '480p'
