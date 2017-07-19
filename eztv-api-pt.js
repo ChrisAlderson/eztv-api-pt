@@ -204,25 +204,20 @@ module.exports = class EZTV {
 
   getAllShows() {
     return this._get('showlist/').then($ => {
-      const eztvMap = EZTV._eztvMap
-
       const regex = /\/shows\/(.*)\/(.*)\//
 
-      const allShows = []
-      $('.thread_link').each(function () {
+      return $('.thread_link').map(function () {
         const show = $(this).text()
         const id = parseInt($(this).attr('href').match(regex)[1], 10)
         let slug = $(this).attr('href').match(regex)[2]
-        slug = slug in eztvMap ? eztvMap[slug] : slug
+        slug = slug in EZTV._eztvMap ? EZTV._eztvMap[slug] : slug
 
-        allShows.push({
+        return {
           show,
           id,
           slug
-        })
-      })
-
-      return allShows
+        }
+      }).get()
     })
   }
 
