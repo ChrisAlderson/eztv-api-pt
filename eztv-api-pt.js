@@ -157,7 +157,6 @@ module.exports = class EZTV {
         ? title.match(/(\d{3,4})p/)[0]
         : '480p'
 
-      let season, episode
       const torrent = {
         url: magnet,
         seeds: 0,
@@ -165,16 +164,17 @@ module.exports = class EZTV {
         provider: 'EZTV'
       }
 
+      let season, episode
       if (title.match(seasonBased)) {
         season = parseInt(title.match(seasonBased)[1], 10)
         episode = parseInt(title.match(seasonBased)[2], 10)
-        data.episodes.dateBased = false
+        data.dateBased = false
       } else if (title.match(dateBased)) {
         season = title.match(dateBased)[1]
         episode = title.match(dateBased)[2].replace(/\s/g, '-')
-        data.episodes.dateBased = true
+        data.dateBased = true
       } else {
-        return
+        season = episode = 0
       }
 
       if (season && episode) {
@@ -190,8 +190,10 @@ module.exports = class EZTV {
           data.episodes[season][episode] = {}
         }
 
-        if (!data.episodes[season][episode][quality] ||
-          title.toLowerCase().indexOf('repack') > -1) {
+        if (
+          !data.episodes[season][episode][quality] ||
+          title.toLowerCase().indexOf('repack') > -1
+        ) {
           data.episodes[season][episode][quality] = torrent
         }
       }
