@@ -2,7 +2,7 @@
 
 const cheerio = require('cheerio')
 const got = require('got')
-const querystring = require('querystring')
+const { URL } = require('url')
 
 module.exports = class EZTV {
 
@@ -117,12 +117,14 @@ module.exports = class EZTV {
     }
   }
 
-  _get(uri, query = {}) {
+  _get(uri) {
+    const url = new URL(uri, this._baseUrl)
+
     if (this._debug) {
-      console.warn(`Making request to: '${uri}${querystring.stringify(query)}'`)
+      console.warn(url.toString())
     }
 
-    return got.get(`${this._baseUrl}/${uri}`, { query })
+    return got.get(url.toString())
       .then(({body}) => cheerio.load(body))
   }
 
