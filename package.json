@@ -9,12 +9,19 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "coveralls": "^2.13.1",
+    "eslint": "^4.2.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2"
   },
   "license": "MIT",
   "scripts": {
     "coveralls": "cat ./coverage/lcov.info | node node_modules/coveralls/bin/coveralls",
+    "lint": "./node_modules/.bin/eslint test/** eztv-api-pt.js",
     "test": "istanbul cover --report lcovonly ./node_modules/.bin/_mocha -- --timeout 15000 --reporter spec test/**"
   },
   "engines": {
@@ -30,5 +37,30 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/ChrisAlderson/eztv-api-pt.git"
+  },
+  "eslintConfig": {
+    "extends": "standard",
+    "env": {
+      "mocha": true,
+      "node": true
+    },
+    "rules": {
+      "padded-blocks": [
+        "error",
+        {
+          "blocks": "never",
+          "switches": "never",
+          "classes": "always"
+        }
+      ],
+      "space-before-function-paren": [
+        "error",
+        {
+          "anonymous": "always",
+          "named": "never",
+          "asyncArrow": "always"
+        }
+      ]
+    }
   }
 }
