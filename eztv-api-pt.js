@@ -2,7 +2,6 @@
 
 const cheerio = require('cheerio')
 const got = require('got')
-const { URL } = require('url')
 
 module.exports = class EZTV {
 
@@ -118,13 +117,13 @@ module.exports = class EZTV {
   }
 
   _get(uri) {
-    const url = new URL(uri, this._baseUrl)
+    const url =  `${this._baseUrl}${uri}`
 
     if (this._debug) {
-      console.warn(url.toString())
+      console.warn(`Making request to: '${url}'`)
     }
 
-    return got.get(url.toString())
+    return got.get(url)
       .then(({body}) => cheerio.load(body))
   }
 
