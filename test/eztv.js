@@ -4,7 +4,6 @@ const { expect } = require('chai')
 const EZTV = require('../eztv-api-pt')
 
 describe('EZTV', () => {
-
   let eztv, show, falseShow, dateBasedShow, noEpisodesShow, noMagnetShow
 
   before(() => {
@@ -40,7 +39,7 @@ describe('EZTV', () => {
     }
   })
 
-  function testShowAttributes (show) {
+  function testShowAttributes(show) {
     expect(show).to.be.an('object')
     expect(show.show).to.be.a('string')
     expect(show.id).to.be.a('number')
@@ -116,5 +115,4 @@ describe('EZTV', () => {
         done()
       })
   })
-
 })
