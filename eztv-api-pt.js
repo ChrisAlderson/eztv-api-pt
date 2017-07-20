@@ -187,10 +187,8 @@ module.exports = class EztvApi {
     }
 
     $('tr.forum_header_border[name="hover"]').each(function () {
-      const title = $(this).children('td').eq(1)
-        .text()
-        .replace('x264', '')
-      const magnet = $(this).children('td').eq(2)
+      const entry = $(this)
+      const magnet = entry.children('td').eq(2)
         .children('a.magnet')
         .first()
         .attr('href')
@@ -201,18 +199,12 @@ module.exports = class EztvApi {
 
       const seasonBased = /S?0*(\d+)[xE]0*(\d+)/i
       const dateBased = /(\d{4}).(\d{2}.\d{2})/i
-      const quality = title.match(/(\d{3,4})p/)
-        ? title.match(/(\d{3,4})p/)[0]
-        : '480p'
+      const title = entry.children('td').eq(1)
+        .text()
+        .replace('x264', '')
+      let season
+      let episode
 
-      const torrent = {
-        url: magnet,
-        seeds: 0,
-        peers: 0,
-        provider: 'EZTV'
-      }
-
-      let season, episode
       if (title.match(seasonBased)) {
         season = parseInt(title.match(seasonBased)[1], 10)
         episode = parseInt(title.match(seasonBased)[2], 10)
@@ -222,7 +214,8 @@ module.exports = class EztvApi {
         episode = title.match(dateBased)[2].replace(/\s/g, '-')
         data.dateBased = true
       } else {
-        season = episode = 0
+        season = 0
+        episode = 0
       }
 
       if (season && episode) {
@@ -236,6 +229,17 @@ module.exports = class EztvApi {
 
         if (!data.episodes[season][episode]) {
           data.episodes[season][episode] = {}
+        }
+
+        const quality = title.match(/(\d{3,4})p/)
+          ? title.match(/(\d{3,4})p/)[0]
+          : '480p'
+
+        const torrent = {
+          url: magnet,
+          seeds: 0,
+          peers: 0,
+          provider: 'EZTV'
         }
 
         if (
@@ -259,9 +263,13 @@ module.exports = class EztvApi {
       const regex = /\/shows\/(.*)\/(.*)\//
 
       return $('.thread_link').map(function () {
-        const show = $(this).text()
-        const id = parseInt($(this).attr('href').match(regex)[1], 10)
-        let slug = $(this).attr('href').match(regex)[2]
+        const entry = $(this)
+        const href = entry.attr('href')
+
+        const show = entry.text()
+        const id = parseInt(href.match(regex)[1], 10)
+
+        let slug = href.match(regex)[2]
         slug = slug in EztvApi._eztvMap ? EztvApi._eztvMap[slug] : slug
 
         return {
