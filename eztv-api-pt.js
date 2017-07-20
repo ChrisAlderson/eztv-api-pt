@@ -157,7 +157,7 @@ module.exports = class EztvApi {
   /**
    * Make a get request to eztv.ag.
    * @param {!string} endpoint - The endpoint to make the request to.
-   * @returns {Promise<Object, undefined>} - The response body wrapped in
+   * @returns {Promise<Function, undefined>} - The response body wrapped in
    * cheerio.
    */
   _get(endpoint) {
