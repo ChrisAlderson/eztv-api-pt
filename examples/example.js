@@ -3,9 +3,8 @@
 // Import the necessary modules.
 const EztvApi = require('../eztv-api-pt')
 
-const eztv = new EztvApi({
-    debug: true
-})
+// Create a new instance of the module.
+const eztv = new EztvApi()
 
 // Get all available shows on eztv.
 eztv.getAllShows().then(res => {
