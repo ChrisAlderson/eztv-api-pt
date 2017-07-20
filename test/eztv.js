@@ -85,7 +85,7 @@ describe('EztvApi', () => {
   /**
    * Test the show attributes.
    * @param {Show} show - The show to test.
-   * @returnd {undefined}
+   * @returns {undefined}
    */
   function testShowAttributes(show) {
     expect(show).to.be.an('object')
@@ -110,7 +110,7 @@ describe('EztvApi', () => {
   /** @test {EztvApi#getShowData} */
   it('should get a show', done => {
     // For branch coverage.
-    eztv._debug = false
+    eztv = new EztvApi()
     eztv.getShowData(show).then(res => {
       testShowAttributes(res)
       expect(res.imdb).to.be.a('string')

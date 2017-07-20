@@ -15,14 +15,14 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3"
   },
   "license": "MIT",
   "scripts": {
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/coveralls/bin/coveralls",
+    "coveralls": "cat ./coverage/lcov.info | node ./node_modules/.bin/coveralls",
     "lint": "./node_modules/.bin/eslint test/** eztv-api-pt.js",
-    "test": "istanbul cover --report lcovonly ./node_modules/.bin/_mocha -- --timeout 15000 --reporter spec test/**"
+    "test": "./node_modules/.bin/nyc ./node_modules/.bin/mocha --timeout 15000 --reporter spec test/**"
   },
   "engines": {
     "node": ">=6.3.0"
