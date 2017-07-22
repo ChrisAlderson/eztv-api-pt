@@ -12,10 +12,9 @@ eztv.getAllShows().then(res => {
   console.log(data)
 
   // Get data including latest episodes from eztv.
-  eztv.getShowData(data)
-    .then(res => console.log(res))
+  return eztv.getShowData(data)
 
   // Or get all episodes from eztv.
-  // eztv.getShowEpisodes(data)
-  //   .then(res => console.log(res)
-}).catch(err => console.error(err))
+  // return eztv.getShowEpisodes(data)
+}).then(res => console.log(res))
+  .catch(err => console.error(err))

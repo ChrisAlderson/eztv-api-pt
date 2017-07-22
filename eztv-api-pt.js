@@ -157,7 +157,7 @@ module.exports = class EztvApi {
   /**
    * Make a get request to eztv.ag.
    * @param {!string} endpoint - The endpoint to make the request to.
-   * @returns {Promise<Function, undefined>} - The response body wrapped in
+   * @returns {Promise<Function, Error>} - The response body wrapped in
    * cheerio.
    */
   _get(endpoint) {
@@ -257,8 +257,7 @@ module.exports = class EztvApi {
 
   /**
    * Get all the available shows from eztv.
-   * @return {Promise<Array<Show>, undefined>} - All the available shows from
-   * eztv.
+   * @return {Promise<Array<Show>, Error>} - All the available shows from eztv.
    */
   getAllShows() {
     return this._get('showlist/').then($ => {
@@ -286,7 +285,7 @@ module.exports = class EztvApi {
   /**
    * Get episodes for a show.
    * @param {Show} data - Teh show to get episodes for.
-   * @returns {Promise<Show, undefined>} - The show with additional data.
+   * @returns {Promise<Show, Error>} - The show with additional data.
    */
   getShowData(data) {
     return this._get(`shows/${data.id}/${data.slug}/`)
@@ -296,7 +295,7 @@ module.exports = class EztvApi {
   /**
    * Search for episodes of a show.
    * @param {Show} data - The show to get episodes for.
-   * @returns {Promise<Show, undefined>} - The show with additional data.
+   * @returns {Promise<Show, Error>} - The show with additional data.
    */
   getShowEpisodes(data) {
     return this._get(`search/`)

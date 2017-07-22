@@ -18,10 +18,10 @@ npm install --save eztv-api-pt
 ```js
 const EztvApi = require('eztv-api-pt')
 
-const eztv = new EztvApi({[
+const eztv = new EztvApi({
   baseUrl, // The base url of eztv. Defaults to 'https://eztv.ag/'
   debug // Show extra output. Defaults to 'false'
-]})
+})
 ```
 
 #### Example usage
