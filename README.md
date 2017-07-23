@@ -18,6 +18,7 @@ npm install --save eztv-api-pt
 ```js
 const EztvApi = require('eztv-api-pt')
 
+// Create a new instance of the module.
 const eztv = new EztvApi({
   baseUrl, // The base url of eztv. Defaults to 'https://eztv.ag/'
   debug // Show extra output. Defaults to 'false'
@@ -32,13 +33,12 @@ eztv.getAllShows().then(res => {
   console.log(data)
 
   // Get data including latest episodes from eztv.
-  eztv.getShowData(data)
-    .then(res => console.log(res))
+  return eztv.getShowData(data)
 
   // Or get all episodes from eztv.
-  // eztv.getShowEpisodes(data)
-  //   .then(res => console.log(res)
-}).catch(err => console.error(err))
+  // return eztv.getShowEpisodes(data)
+}).then(res => console.log(res))
+  .catch(err => console.error(err))
 ```
 
 ## Output

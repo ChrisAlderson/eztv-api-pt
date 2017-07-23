@@ -167,7 +167,6 @@ describe('EztvApi', () => {
   it('should fail to get a show', done => {
     eztv.getShowData(falseShow).then(done).catch(err => {
       expect(err).to.be.an('Error')
-
       done()
     })
   })
