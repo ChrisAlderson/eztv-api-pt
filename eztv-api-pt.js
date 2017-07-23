@@ -161,13 +161,13 @@ module.exports = class EztvApi {
    * cheerio.
    */
   _get(endpoint) {
-    const url = `${this._baseUrl}${endpoint}`
+    const uri = `${this._baseUrl}${endpoint}`
 
     if (this._debug) {
-      console.warn(`Making request to: '${url}'`)
+      console.warn(`Making request to: '${uri}'`)
     }
 
-    return got.get(url)
+    return got.get(uri)
       .then(({body}) => cheerio.load(body))
   }
 
