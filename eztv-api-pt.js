@@ -7,11 +7,11 @@ const got = require('got')
 /**
  * Show object which will be returned.
  * @typedef {Object} Show
- * @property {!string} show The name of the show.
- * @property {!number} id The eztv id of the show.
- * @property {!string} slug The slug of the show.
- * @property {?string} imdb The imdb code of the show.
- * @property {?Object} episodes The episodes of the show.
+ * @property {string} show The name of the show.
+ * @property {number} id The eztv id of the show.
+ * @property {string} slug The slug of the show.
+ * @property {string} imdb The imdb code of the show.
+ * @property {Object} episodes The episodes of the show.
  */
 
 /**
