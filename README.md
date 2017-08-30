@@ -20,8 +20,7 @@ const EztvApi = require('eztv-api-pt')
 
 // Create a new instance of the module.
 const eztv = new EztvApi({
-  baseUrl, // The base url of eztv. Defaults to 'https://eztv.ag/'.
-  debug // Show extra output. Defaults to 'false'.
+  baseUrl // The base url of eztv. Defaults to 'https://eztv.ag/'.
 })
 ```
 
