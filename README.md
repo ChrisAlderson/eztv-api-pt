@@ -1,6 +1,7 @@
 # eztv-api-pt
 
-[![Build Status](https://travis-ci.org/ChrisAlderson/eztv-api-pt.svg?branch=master)](https://travis-ci.org/ChrisAlderson/eztv-api-pt)
+[![Build Status](https://travis-ci.org/ChrisAlderson/eztv-api-pt.svg?branch=master)](https://travis-ci.org/ChrisAlderson/eztv-api-pt)[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FChrisAlderson%2Feztv-api-pt.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FChrisAlderson%2Feztv-api-pt?ref=badge_shield)
+
 [![Coverage Status](https://coveralls.io/repos/github/ChrisAlderson/eztv-api-pt/badge.svg?branch=master)](https://coveralls.io/github/ChrisAlderson/eztv-api-pt?branch=master)
 [![Dependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt)
 [![devDependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt#info=devDependencies)
@@ -110,3 +111,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FChrisAlderson%2Feztv-api-pt.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2FChrisAlderson%2Feztv-api-pt?ref=badge_large)
