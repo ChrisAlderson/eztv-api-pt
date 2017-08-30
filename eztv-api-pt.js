@@ -2,7 +2,10 @@
 
 // Import the necessary modules.
 const cheerio = require('cheerio')
+const debug = require('debug')
 const got = require('got')
+
+const { name } = require('./package')
 
 /**
  * Show object which will be returned.
@@ -24,9 +27,8 @@ module.exports = class EztvApi {
    * Create a new instance of the module.
    * @param {!Object} config={} - The configuration object for the module.
    * @param {!string} baseUrl=https://eztv.ag/ - The base url of eztv.
-   * @param {?boolean} [debug=false] - Show extra output.
    */
-  constructor({baseUrl = 'https://eztv.ag/', debug = false} = {}) {
+  constructor({baseUrl = 'https://eztv.ag/'} = {}) {
     /**
      * The base url of eztv.
      * @type {string}
@@ -37,7 +39,7 @@ module.exports = class EztvApi {
      * Show extra output.
      * @type {boolean}
      */
-    this._debug = debug
+    this._debug = debug(name)
 
     /**
      * Maps the EZTV slugs to trakt.tv slugs.
@@ -162,10 +164,7 @@ module.exports = class EztvApi {
    */
   _get(endpoint) {
     const uri = `${this._baseUrl}${endpoint}`
-
-    if (this._debug) {
-      console.warn(`Making request to: '${uri}'`)
-    }
+    this._debug(`Making request to: '${uri}'`)
 
     return got.get(uri)
       .then(({body}) => cheerio.load(body))

@@ -4,6 +4,7 @@
   "description": "An EZTV API wrapper to get data from eztv.ag.",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "debug": "^3.0.1",
     "got": "^7.1.0"
   },
   "devDependencies": {

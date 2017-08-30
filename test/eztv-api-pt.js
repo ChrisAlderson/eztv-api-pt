@@ -48,12 +48,7 @@ describe('EztvApi', () => {
    * @type {Function}
    */
   before(() => {
-    // Disable the warn logging function to testing.
-    console.warn = () => {}
-
-    eztv = new EztvApi({
-      debug: true
-    })
+    eztv = new EztvApi()
 
     show = {
       show: 'Dark Net',
