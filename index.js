@@ -1,5 +1,3 @@
-'use strict'
-
 // Import the necessary modules.
 const cheerio = require('cheerio')
 const debug = require('debug')

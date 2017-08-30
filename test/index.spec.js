@@ -1,9 +1,8 @@
-'use strict'
-
-/* eslint-disable no-unused-expressions */
 // Import the necessary modules.
+/* eslint-disable no-unused-expressions */
 const { expect } = require('chai')
-const EztvApi = require('../eztv-api-pt')
+
+const EztvApi = require('..')
 
 /** @test {EztvApi} */
 describe('EztvApi', () => {

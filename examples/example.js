@@ -1,8 +1,6 @@
-'use strict'
-
 // Import the necessary modules.
 /* eslint-disable no-console */
-const EztvApi = require('../eztv-api-pt')
+const EztvApi = require('..')
 
 // Create a new instance of the module.
 const eztv = new EztvApi()

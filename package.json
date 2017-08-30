@@ -30,7 +30,7 @@
     "api",
     "popcorn"
   ],
-  "main": "eztv-api-pt.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ChrisAlderson/eztv-api-pt.git"
