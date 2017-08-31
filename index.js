@@ -184,7 +184,8 @@ module.exports = class EztvApi {
       data.imdb = imdb
     }
 
-    $('tr.forum_header_border[name="hover"]').each(function () {
+    const table = 'tr.forum_header_border[name="hover"]'
+    $(table).each(function () {
       const entry = $(this)
       const magnet = entry.children('td').eq(2)
         .children('a.magnet')
