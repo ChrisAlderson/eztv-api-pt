@@ -35,7 +35,7 @@ module.exports = class EztvApi {
 
     /**
      * Show extra output.
-     * @type {boolean}
+     * @type {Function}
      */
     this._debug = debug(name)
 
