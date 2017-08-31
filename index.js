@@ -295,7 +295,7 @@ module.exports = class EztvApi {
    * @returns {Promise<Show, Error>} - The show with additional data.
    */
   getShowEpisodes(data) {
-    return this._get(`search/`)
+    return this._get('search/')
       .then($ => this._getEpisodeData(data, $))
   }
 
