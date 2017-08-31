@@ -32,7 +32,6 @@ module.exports = class EztvApi {
      * @type {string}
      */
     this._baseUrl = baseUrl
-
     /**
      * Show extra output.
      * @type {Function}
@@ -71,7 +70,6 @@ module.exports = class EztvApi {
       'the-office': 'the-office-us',
       'vikings-us': 'vikings'
     }
-
     /**
      * Maps the EZTV imdb codes to trakt.tv imdb codes.
      * @type {Object}
@@ -165,7 +163,7 @@ module.exports = class EztvApi {
     this._debug(`Making request to: '${uri}'`)
 
     return got.get(uri)
-      .then(({body}) => cheerio.load(body))
+      .then(({ body }) => cheerio.load(body))
   }
 
   /**
