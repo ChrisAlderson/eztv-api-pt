@@ -77,7 +77,7 @@ Documentation on the API can be found [here](https://eztv.ag/api/).
     slug: '10-things-i-hate-about-you'
   },
   ...
-]
+}]
 ```
 
 #### getShowData / getShowEpisodes
