@@ -6,14 +6,21 @@ const EztvApi = require('..')
 const eztv = new EztvApi()
 
 // Get all available shows on eztv.
-eztv.getAllShows().then(res => {
-  const [ data ] = res
-  console.log(data)
+// eztv.getAllShows().then(res => {
+//   const [ data ] = res
+//   console.log(data)
+// 
+//   // Get data including latest episodes from eztv.
+//   return eztv.getShowData(data)
+// 
+//   // Or get all episodes from eztv.
+//   // return eztv.getShowEpisodes(data)
+// }).then(res => console.log(res))
+//   .catch(err => console.error(err))
 
-  // Get data including latest episodes from eztv.
-  return eztv.getShowData(data)
-
-  // Or get all episodes from eztv.
-  // return eztv.getShowEpisodes(data)
+// Use the API of EZTV.
+eztv.getTorrents({
+  page: 1,
+  limit: 10 // 10 - 100
 }).then(res => console.log(res))
   .catch(err => console.error(err))

@@ -2,6 +2,7 @@
 const cheerio = require('cheerio')
 const debug = require('debug')
 const got = require('got')
+const { stringify } = require('querystring')
 
 const { name } = require('./package')
 
@@ -13,6 +14,34 @@ const { name } = require('./package')
  * @property {string} slug The slug of the show.
  * @property {string} imdb The imdb code of the show.
  * @property {Object} episodes The episodes of the show.
+ */
+
+/**
+ * The response object of the API call.
+ * @typedef {Object} ApiResponse
+ * @property {number} torrent_count The total number of torrents.
+ * @property {number} limit The limit of the torrents response.
+ * @property {number} page The page of the torrents response.
+ * @property {Array<Torrents>} torrent The torrent of the response.
+ */
+
+/**
+ * The model of the torrent object.
+ * @typedef {Object} Torrent
+ * @property {number} id The id of the torrent
+ * @property {string} episode_url The episode url of the torrent.
+ * @property {string} torrent_url The torrent url of the torrent.
+ * @property {string} magnet_url The magnet url of the torrent.
+ * @property {string} title The title of the torrent.
+ * @property {string} hash The hash of the torrent.
+ * @property {string} filename The filename of the torrent.
+ * @property {string} small_screenshot The small screenshot of the torrent.
+ * @property {string} large_screenshot The large screenshot of the torrent.
+ * @property {number} seeds The seeds of the torrent.
+ * @property {number} peers The peers of the torrent. 
+ * @property {number} date_released_unix The epoch time the torrent was
+ * released. 
+ * @property {string} size_bytes The size of the torrent in bytes. 
  */
 
 /**
@@ -155,15 +184,30 @@ module.exports = class EztvApi {
   /**
    * Make a get request to eztv.ag.
    * @param {!string} endpoint - The endpoint to make the request to.
+   * @param {?Object} query - The query parameters of the HTTP request.
+   * @param {?boolean} raw - Get the raw body of the response.
    * @returns {Promise<Function, Error>} - The response body wrapped in
    * cheerio.
    */
-  _get(endpoint) {
+  _get(endpoint, query = {}, raw = false) {
     const uri = `${this._baseUrl}${endpoint}`
-    this._debug(`Making request to: '${uri}'`)
+    const opts = {
+      query
+    }
 
-    return got.get(uri)
-      .then(({ body }) => cheerio.load(body))
+    this._debug(`Making request to: '${uri}?${stringify(query)}'`)
+
+    if (raw) {
+      opts.json = true
+    }
+
+    return got.get(uri, opts).then(({ body }) => {
+      if (raw) {
+        return body
+      }
+
+      return cheerio.load(body)
+    })
   }
 
   /**
@@ -296,6 +340,21 @@ module.exports = class EztvApi {
   getShowEpisodes(data) {
     return this._get('search/')
       .then($ => this._getEpisodeData(data, $))
+  }
+
+  /**
+   * Get a list of torrents. 
+   * @param {!Object} config={} - The config object of the method.
+   * @param {!number} config.page=1 - The page of the API call.
+   * @param {!number} config.limit=10 - The limit of the API call.
+   * @returns {Promise<ApiResponse, Error>} - The response object of an API
+   * call.
+   */
+  getTorrents({page = 1, limit = 10} = {}) {
+    return this._get('api/get-torrents', {
+      page,
+      limit
+    }, true)
   }
 
 }

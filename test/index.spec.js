@@ -88,6 +88,46 @@ describe('EztvApi', () => {
     expect(show.slug).to.be.a('string')
   }
 
+  /**
+   * Test the response object of a getTorrent response.
+   * @param {ApiResponse} res - The response object to test.
+   * @returns {undefined}
+   */
+  function testGetTorrentsAttributes(res) {
+    expect(res).to.be.an('object')
+    expect(res.torrents_count).to.be.a('number')
+    expect(res.limit).to.be.a('number')
+    expect(res.page).to.be.a('number')
+
+    expect(res.torrents).to.be.an('array')
+    expect(res.torrents.length).to.be.at.least(1)
+    testTorrentAttributes(res.torrents)
+  }
+
+  /**
+   * Test the torrent attributes.
+   * @param {Array<Torrent>} torrents - The torrent to test.
+   * @returns {undefined}
+   */
+  function testTorrentAttributes(torrents) {
+    const random = Math.floor(Math.random() * torrents.length)
+    const toTest = torrents[random]
+
+    expect(toTest.id).to.be.a('number')
+    expect(toTest.episode_url).to.be.a('string')
+    expect(toTest.torrent_url).to.be.a('string')
+    expect(toTest.magnet_url).to.be.a('string')
+    expect(toTest.title).to.be.a('string')
+    expect(toTest.hash).to.be.a('string')
+    expect(toTest.filename).to.be.a('string')
+    expect(toTest.small_screenshot).to.be.a('string')
+    expect(toTest.large_screenshot).to.be.a('string')
+    expect(toTest.seeds).to.be.a('number')
+    expect(toTest.peers).to.be.a('number')
+    expect(toTest.date_released_unix).to.be.a('number')
+    expect(toTest.size_bytes).to.be.a('string') // XXX: should be a number?
+  }
+
   /** @test {EztvApi#getAllShows} */
   it('should get a list of tv shows', done => {
     eztv.getAllShows().then(res => {
@@ -163,5 +203,26 @@ describe('EztvApi', () => {
       expect(err).to.be.an('Error')
       done()
     })
+  })
+
+  /** @test {EztvApi#getTorrents} */
+  it('should get a list of torrents', done => {
+    eztv.getTorrents({
+      page: 1,
+      limit: 10
+    }).then(res => {
+      testGetTorrentsAttributes(res)
+
+      done()
+    }).catch(done)
+  })
+
+  /** @test {EztvApi#getTorrents} */
+  it('should get a list of torrents with the default parameters', done => {
+    eztv.getTorrents().then(res => {
+      testGetTorrentsAttributes(res)
+
+      done()
+    }).catch(done)
   })
 })

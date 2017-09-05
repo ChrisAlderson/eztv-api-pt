@@ -10,11 +10,13 @@ An EZTV API wrapper to get data from [eztv.ag](https://eztv.ag/).
 ## Usage
 
 #### Setup
+
 ```
 npm install --save eztv-api-pt
 ```
 
 #### Initialize
+
 ```js
 const EztvApi = require('eztv-api-pt')
 
@@ -25,6 +27,11 @@ const eztv = new EztvApi({
 ```
 
 #### Example usage
+
+##### Scraper
+
+To use the web scraper you can use this workflow:
+
 ```js
 // Get all available shows on eztv.
 eztv.getAllShows().then(res => {
@@ -40,9 +47,25 @@ eztv.getAllShows().then(res => {
   .catch(err => console.error(err))
 ```
 
+##### API 
+
+To use the API of EZTV you can use this method:
+
+```js
+// Use the API of EZTV.
+eztv.getTorrents({
+  page: 1,
+  limit: 10 // 10 - 100
+}).then(res => console.log(res))
+  .catch(err => console.error(err))
+```
+
+Documentation on the API can be found [here](https://eztv.ag/api/).
+
 ## Output
 
 #### getAllShows
+
 ```js
 [{
     show: '10 O\'Clock Live',
@@ -58,6 +81,7 @@ eztv.getAllShows().then(res => {
 ```
 
 #### getShowData / getShowEpisodes
+
 ```js
 { show: '10 O\'Clock Live',
   id: 449,
@@ -80,9 +104,38 @@ Nested within the `episodes` property there is the `season number`
 within the `season number` is the `episode number` and within the
 `episode number` are the different `qualities` of the torrent.
 
+#### getTorrents
+
+```js
+{
+  torrents_count: 71449,
+  limit: 10,
+  page: 1,
+  torrents: [
+    {
+      id: 370046,
+      episode_url: 'https://eztv.ag/ep/370046/love-and-hip-hop-hollywood-s04e08-squad-goals-720p-hdtv-x264-crimson/',
+      torrent_url: 'https://zoink.ch/torrent/Love.and.Hip.Hop.Hollywood.S04E08.Squad.Goals.720p.HDTV.x264-CRiMSON[eztv].mkv.torrent',
+      magnet_url: 'magnet:?xt=urn:btih:5d5fe0529005987a51f7425cf8a54600fcf36e7e&dn=Love.and.Hip.Hop.Hollywood.S04E08.Squad.Goals.720p.HDTV.x264-CRiMSON%5Brartv%5D&tr=http%3A%2F%2Ftracker.trackerfix.com%3A80%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2710&tr=udp%3A%2F%2F9.rarbg.to%3A2710&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce',
+      title: 'Love and Hip Hop Hollywood S04E08 Squad Goals 720p HDTV x264-CRiMSON EZTV',
+      hash: '234f2af8285c4705227eec0d95ffad7b8c3dfca4',
+      filename: 'Love.and.Hip.Hop.Hollywood.S04E08.Squad.Goals.720p.HDTV.x264-CRiMSON[eztv].mkv',
+      small_screenshot: '',
+      large_screenshot: '',
+      seeds: 5,
+      peers: 7,
+      date_released_unix: 1504597861,
+      size_bytes: '974042358'
+    },
+    ...
+  ]
+}
+```
+
 ## Testing
 
 You can run tests with the following npm command:
+
 ```
  $ npm test
 ```
