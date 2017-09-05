@@ -22,7 +22,7 @@ const { name } = require('./package')
  * @property {number} torrent_count The total number of torrents.
  * @property {number} limit The limit of the torrents response.
  * @property {number} page The page of the torrents response.
- * @property {Array<Torrents>} torrent The torrent of the response.
+ * @property {Array<Torrent>} torrent The torrent of the response.
  */
 
 /**
