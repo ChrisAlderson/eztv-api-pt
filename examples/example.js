@@ -21,6 +21,7 @@ const eztv = new EztvApi()
 // Use the API of EZTV.
 eztv.getTorrents({
   page: 1,
-  limit: 10 // 10 - 100
+  limit: 10, // 10 - 100
+  imdb: 5016504 // tt5016503
 }).then(res => console.log(res))
   .catch(err => console.error(err))

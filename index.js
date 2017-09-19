@@ -29,12 +29,15 @@ const { name } = require('./package')
  * The model of the torrent object.
  * @typedef {Object} Torrent
  * @property {number} id The id of the torrent
+ * @property {string} hash The hash of the torrent.
+ * @property {string} filename The filename of the torrent.
  * @property {string} episode_url The episode url of the torrent.
  * @property {string} torrent_url The torrent url of the torrent.
  * @property {string} magnet_url The magnet url of the torrent.
  * @property {string} title The title of the torrent.
- * @property {string} hash The hash of the torrent.
- * @property {string} filename The filename of the torrent.
+ * @property {string} imdb_id The imdb id of the torrent.
+ * @property {number} season The season of the torrent.
+ * @property {number} episode The episode of the torrent.
  * @property {string} small_screenshot The small screenshot of the torrent.
  * @property {string} large_screenshot The large screenshot of the torrent.
  * @property {number} seeds The seeds of the torrent.
@@ -543,10 +546,18 @@ module.exports = class EztvApi {
    * @returns {Promise<ApiResponse, Error>} - The response object of an API
    * call.
    */
-  getTorrents({page = 1, limit = 10} = {}) {
+  getTorrents({page = 1, limit = 30, imdb} = {}) {
+    let imdbId
+    if (typeof imdb === 'string' && imdb.startsWith('tt')) {
+      imdbId = imdb.substring(1, imdb.length)
+    } else {
+      imdbId = imdb
+    }
+
     return this._get('api/get-torrents', {
       page,
-      limit
+      limit,
+      imdb_id: imdbId
     }, true)
   }
 

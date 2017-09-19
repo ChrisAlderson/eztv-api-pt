@@ -114,18 +114,21 @@ describe('EztvApi', () => {
     const toTest = torrents[random]
 
     expect(toTest.id).to.be.a('number')
+    expect(toTest.hash).to.be.a('string')
+    expect(toTest.filename).to.be.a('string')
     expect(toTest.episode_url).to.be.a('string')
     expect(toTest.torrent_url).to.be.a('string')
     expect(toTest.magnet_url).to.be.a('string')
     expect(toTest.title).to.be.a('string')
-    expect(toTest.hash).to.be.a('string')
-    expect(toTest.filename).to.be.a('string')
+    expect(toTest.imdb_id).to.be.a('string')
+    expect(toTest.season).to.be.a('string')
+    expect(toTest.episode).to.be.a('string')
     expect(toTest.small_screenshot).to.be.a('string')
     expect(toTest.large_screenshot).to.be.a('string')
     expect(toTest.seeds).to.be.a('number')
     expect(toTest.peers).to.be.a('number')
     expect(toTest.date_released_unix).to.be.a('number')
-    expect(toTest.size_bytes).to.be.a('string') // XXX: should be a number?
+    expect(toTest.size_bytes).to.be.a('string')
   }
 
   /** @test {EztvApi#getAllShows} */
@@ -209,7 +212,19 @@ describe('EztvApi', () => {
   it('should get a list of torrents', done => {
     eztv.getTorrents({
       page: 1,
-      limit: 10
+      limit: 10,
+      imdb: '5016504'
+    }).then(res => {
+      testGetTorrentsAttributes(res)
+
+      done()
+    }).catch(done)
+  })
+
+  /** @test {EztvApi#getTorrents} */
+  it('should get a list of torrents with a standard imdb id', done => {
+    eztv.getTorrents({
+      imdb: 'tt5016504'
     }).then(res => {
       testGetTorrentsAttributes(res)
 
