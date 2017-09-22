@@ -550,7 +550,7 @@ module.exports = class EztvApi {
   getTorrents({page = 1, limit = 30, imdb} = {}) {
     let imdbId
     if (typeof imdb === 'string' && imdb.startsWith('tt')) {
-      imdbId = imdb.substring(1, imdb.length)
+      imdbId = imdb.substring(2, imdb.length)
     } else {
       imdbId = imdb
     }
