@@ -216,6 +216,7 @@ describe('EztvApi', () => {
       imdb: '5016504'
     }).then(res => {
       testGetTorrentsAttributes(res)
+      expect(res.imdb_id).to.be.a('string')
 
       done()
     }).catch(done)
@@ -227,6 +228,7 @@ describe('EztvApi', () => {
       imdb: 'tt5016504'
     }).then(res => {
       testGetTorrentsAttributes(res)
+      expect(res.imdb_id).to.be.a('string')
 
       done()
     }).catch(done)
@@ -236,6 +238,7 @@ describe('EztvApi', () => {
   it('should get a list of torrents with the default parameters', done => {
     eztv.getTorrents().then(res => {
       testGetTorrentsAttributes(res)
+      expect(res.imdb_id).to.be.undefined
 
       done()
     }).catch(done)
