@@ -19,6 +19,7 @@ const { name } = require('./package')
 /**
  * The response object of the API call.
  * @typedef {Object} ApiResponse
+ * @property {string} imdb_id The imdb id of the response.
  * @property {number} torrent_count The total number of torrents.
  * @property {number} limit The limit of the torrents response.
  * @property {number} page The page of the torrents response.
