@@ -9,10 +9,10 @@ const eztv = new EztvApi()
 // eztv.getAllShows().then(res => {
 //   const [ data ] = res
 //   console.log(data)
-// 
+//
 //   // Get data including latest episodes from eztv.
 //   return eztv.getShowData(data)
-// 
+//
 //   // Or get all episodes from eztv.
 //   // return eztv.getShowEpisodes(data)
 // }).then(res => console.log(res))
