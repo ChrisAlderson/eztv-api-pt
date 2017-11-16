@@ -42,10 +42,10 @@ const { name } = require('./package')
  * @property {string} small_screenshot The small screenshot of the torrent.
  * @property {string} large_screenshot The large screenshot of the torrent.
  * @property {number} seeds The seeds of the torrent.
- * @property {number} peers The peers of the torrent. 
+ * @property {number} peers The peers of the torrent.
  * @property {number} date_released_unix The epoch time the torrent was
- * released. 
- * @property {string} size_bytes The size of the torrent in bytes. 
+ * released.
+ * @property {string} size_bytes The size of the torrent in bytes.
  */
 
 /**
@@ -540,7 +540,7 @@ module.exports = class EztvApi {
   }
 
   /**
-   * Get a list of torrents. 
+   * Get a list of torrents.
    * @param {!Object} config={} - The config object of the method.
    * @param {!number} config.page=1 - The page of the API call.
    * @param {!number} config.limit=10 - The limit of the API call.

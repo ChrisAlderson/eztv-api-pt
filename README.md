@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/ChrisAlderson/eztv-api-pt.svg?branch=master)](https://travis-ci.org/ChrisAlderson/eztv-api-pt)
 [![Coverage Status](https://coveralls.io/repos/github/ChrisAlderson/eztv-api-pt/badge.svg?branch=master)](https://coveralls.io/github/ChrisAlderson/eztv-api-pt?branch=master)
 [![Dependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt)
-[![devDependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt#info=devDependencies)
+[![devDependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt?type=dev)
 
 An EZTV API wrapper to get data from [eztv.ag](https://eztv.ag/).
 
