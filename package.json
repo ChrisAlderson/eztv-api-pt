@@ -5,12 +5,12 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "debug": "^3.1.0",
-    "got": "^8.0.0"
+    "got": "^8.0.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
-    "eslint": "^4.11.0",
+    "eslint": "^4.13.1",
     "eslint-config-vixo": "^2.0.1",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
