@@ -5,7 +5,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "debug": "^3.1.0",
-    "got": "^8.0.1"
+    "got": "^8.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
