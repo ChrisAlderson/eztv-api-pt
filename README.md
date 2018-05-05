@@ -1,9 +1,18 @@
 # eztv-api-pt
 
-[![Build Status](https://travis-ci.org/ChrisAlderson/eztv-api-pt.svg?branch=master)](https://travis-ci.org/ChrisAlderson/eztv-api-pt)
-[![Coverage Status](https://coveralls.io/repos/github/ChrisAlderson/eztv-api-pt/badge.svg?branch=master)](https://coveralls.io/github/ChrisAlderson/eztv-api-pt?branch=master)
-[![Dependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt)
-[![devDependency Status](https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg)](https://david-dm.org/ChrisAlderson/eztv-api-pt?type=dev)
+[![Build Status][travis-image]][travis-url]
+[![Coverage Status][coverage-image]][coverage-url]
+[![Dependency Status][david-image]][david-url]
+[![devDependency Status][dev-david-image]][dev-david-url]
+
+[travis-url]: https://travis-ci.org/ChrisAlderson/eztv-api-pt
+[travis-image]: https://travis-ci.org/ChrisAlderson/eztv-api-pt.svg?branch=master
+[coverage-url]: https://coveralls.io/github/ChrisAlderson/eztv-api-pt?branch=master
+[coverage-image]: https://coveralls.io/repos/github/ChrisAlderson/eztv-api-pt/badge.svg?branch=master
+[david-url]: https://david-dm.org/ChrisAlderson/eztv-api-pt
+[david-image]: https://david-dm.org/ChrisAlderson/eztv-api-pt.svg
+[dev-david-url]: https://david-dm.org/ChrisAlderson/eztv-api-pt?type=dev
+[dev-david-image]: https://david-dm.org/ChrisAlderson/eztv-api-pt/dev-status.svg
 
 An EZTV API wrapper to get data from [eztv.ag](https://eztv.ag/).
 
@@ -47,7 +56,7 @@ eztv.getAllShows().then(res => {
   .catch(err => console.error(err))
 ```
 
-##### API 
+##### API
 
 To use the API of EZTV you can use this method:
 
@@ -149,4 +158,3 @@ You can run tests with the following npm command:
 # License
 
 MIT License
-
