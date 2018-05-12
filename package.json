@@ -9,11 +9,11 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.19.1",
-    "eslint-config-vixo": "^2.0.2",
+    "coveralls": "^3.0.1",
+    "eslint": "^5.0.0-alpha.3",
+    "eslint-config-vixo": "^2.1.0",
     "mocha": "^5.1.1",
-    "nyc": "^11.7.1"
+    "nyc": "^11.7.3"
   },
   "license": "MIT",
   "scripts": {

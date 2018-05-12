@@ -4,7 +4,7 @@ const debug = require('debug')
 const got = require('got')
 const { stringify } = require('querystring')
 
-const { name } = require('./package')
+const { name } = require('./package.json')
 
 /**
  * Show object which will be returned.
